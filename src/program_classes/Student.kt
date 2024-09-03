@@ -44,4 +44,9 @@ class Student(
         set(value) {
             field = value?.lowercase()
         }
+
+    override fun toString(): String {
+        val str = "Full name: $fam_name $name $father_name,\nphone: $phone \nemail:$email \ngit: $git \ntelegram: $telegram\n"
+        return str
+    }
 }
