@@ -23,7 +23,9 @@ class Student(
         }
     var phone: String? = phone
         set(value) {
-            field = value?.lowercase()
+            if (checkPhone(value!!)){
+                field = value.lowercase()
+            }
         }
     var email: String? = email
         set(value) {
@@ -42,6 +44,7 @@ class Student(
         val str = "Full name: $fam_name $name $father_name,\nphone: $phone \nemail:$email \ngit: $git \ntelegram: $telegram\n"
         return str
     }
+
     fun validate(): Boolean{
         return checkTelegram() || checkGit()
     }
@@ -50,5 +53,12 @@ class Student(
     }
     fun checkTelegram(): Boolean{
         return (telegram != null)&&(telegram != "")
+    }
+
+    companion object{
+        fun checkPhone(phone: String): Boolean{
+            val reg = Regex("a?\\d{11}")
+            return reg.matches(phone)
+        }
     }
 }
