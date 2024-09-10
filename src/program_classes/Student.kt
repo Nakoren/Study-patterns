@@ -11,33 +11,51 @@ class Student(
     ) {
     var name: String = name
         set(value) {
-            field = value.lowercase()
+            field = value
         }
     var fam_name: String = fam_name
         set(value) {
-            field = value.lowercase()
+            field = value
         }
     var father_name: String = father_name
         set(value) {
-            field = value.lowercase()
+            field = value
         }
     var phone: String? = phone
         set(value) {
             if (checkPhone(value!!)){
-                field = value.lowercase()
+                field = value
+            }
+            else{
+                field = null
             }
         }
     var email: String? = email
         set(value) {
-            field = value?.lowercase()
+            if (checkEmail(value!!)){
+                field = value
+            }
+            else{
+                field = null
+            }
         }
     var git: String? = git
         set(value) {
-            field = value?.lowercase()
+            if (checkString(value!!)){
+                field = value
+            }
+            else{
+                field = null
+            }
         }
     var telegram: String? = telegram
         set(value) {
-            field = value?.lowercase()
+            if (checkString(value!!)){
+                field = value
+            }
+            else{
+                field = null
+            }
         }
 
     override fun toString(): String {
@@ -46,12 +64,12 @@ class Student(
     }
 
     fun validate(): Boolean{
-        return checkTelegram() || checkGit()
+        return checkTelegramExistence() || checkGitExistence()
     }
-    fun checkGit(): Boolean{
+    fun checkGitExistence(): Boolean{
         return (git != null)&&(git != "")
     }
-    fun checkTelegram(): Boolean{
+    fun checkTelegramExistence(): Boolean{
         return (telegram != null)&&(telegram != "")
     }
 
@@ -59,6 +77,13 @@ class Student(
         fun checkPhone(phone: String): Boolean{
             val reg = Regex("a?\\d{11}")
             return reg.matches(phone)
+        }
+        fun checkEmail(email: String): Boolean{
+            val reg = Regex("[\\w,\\d]+@\\w+\\.\\w+")
+            return reg.containsMatchIn(email)
+        }
+        fun checkString(name: String): Boolean{
+            return name!=""
         }
     }
 }
