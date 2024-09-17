@@ -3,11 +3,7 @@ package program_classes
 class Student(
     name: String,
     fam_name: String,
-    father_name: String,
-    phone: String? = null,
-    email: String? = null,
-    telegram: String? = null,
-    git: String? = null
+    father_name: String
     ) {
     var name: String = name
         set(value) {
@@ -21,7 +17,7 @@ class Student(
         set(value) {
             field = value
         }
-    var phone: String? = phone
+    var phone: String? = null
         set(value) {
             if (checkPhone(value!!)){
                 field = value
@@ -30,7 +26,7 @@ class Student(
                 field = null
             }
         }
-    var email: String? = email
+    var email: String?  = null
         set(value) {
             if (checkEmail(value!!)){
                 field = value
@@ -39,7 +35,7 @@ class Student(
                 field = null
             }
         }
-    var git: String? = git
+    var git: String?  = null
         set(value) {
             if (checkString(value!!)){
                 field = value
@@ -48,7 +44,7 @@ class Student(
                 field = null
             }
         }
-    var telegram: String? = telegram
+    var telegram: String?  = null
         set(value) {
             if (checkString(value!!)){
                 field = value
@@ -75,7 +71,7 @@ class Student(
 
     companion object{
         fun checkPhone(phone: String): Boolean{
-            val reg = Regex("a?\\d{11}")
+            val reg = Regex("\\+?\\d{11}")
             return reg.matches(phone)
         }
         fun checkEmail(email: String): Boolean{
@@ -90,5 +86,44 @@ class Student(
         this.email = email
         this.telegram = telegram
         this.phone = phone
+    }
+    fun getHashMap():HashMap<String, String?>{
+        val map = HashMap<String, String?>()
+        map["name"] = name
+        map["fam_name"] = fam_name
+        map["father_name"] = father_name
+        map["phone"] = phone
+        map["email"] = email
+        map["git"] = git
+        map["telegram"] = telegram
+        return map
+    }
+    constructor(name:String, fam_name: String, father_name: String, phone:String?, email:String?, git:String?, telegram: String?):this(name=name,fam_name=fam_name,father_name=father_name){
+        if(phone!=null){
+            this.phone = phone
+        }
+        if(email!=null){
+            this.email = email
+        }
+        if(git!=null){
+            this.git = git
+        }
+        if(telegram!=null){
+            this.git = git
+        }
+    }
+    constructor(map: HashMap<String, String?>): this(name=map["name"] as String,fam_name=map["fam_name"] as String,father_name=map["father_name"] as String) {
+        if(phone!=null){
+            phone = map["phone"]
+        }
+        if(email!=null){
+            email = map["email"]
+        }
+        if(git!=null){
+            git = map["git"]
+        }
+        if(telegram!=null){
+            telegram = map["telegram"]
+        }
     }
 }
