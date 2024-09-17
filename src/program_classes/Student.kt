@@ -86,4 +86,9 @@ class Student(
             return name!=""
         }
     }
+    fun setContacts(email: String?, telegram: String?,phone: String? ){
+        this.email = email
+        this.telegram = telegram
+        this.phone = phone
+    }
 }
