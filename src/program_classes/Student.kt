@@ -55,18 +55,46 @@ class Student(
         }
 
     override fun toString(): String {
+        var str = "$name $fam_name $father_name"
+        if (telegram == null){
+            str+=" ___"
+        }
+        else{
+            str+=" $telegram"
+        }
+        if (email == null){
+            str+=" ___"
+        }
+        else{
+            str+=" $email"
+        }
+        if (phone == null){
+            str+=" ___"
+        }
+        else{
+            str+=" $phone"
+        }
+        if (git == null){
+            str+=" ___"
+        }
+        else{
+            str+=" $git"
+        }
+        return str
+    }
+    fun toReadableString(): String{
         val str = "Full name: $fam_name $name $father_name,\nphone: $phone \nemail:$email \ngit: $git \ntelegram: $telegram\n"
         return str
     }
 
     fun validate(): Boolean{
-        return checkTelegramExistence() || checkGitExistence()
+        return checkContactExistence() || checkGitExistence()
+    }
+    fun checkContactExistence():Boolean{
+        return (email!=null || phone != null || telegram!=null)
     }
     fun checkGitExistence(): Boolean{
         return (git != null)&&(git != "")
-    }
-    fun checkTelegramExistence(): Boolean{
-        return (telegram != null)&&(telegram != "")
     }
 
     companion object{
@@ -82,7 +110,7 @@ class Student(
             return name!=""
         }
     }
-    fun setContacts(email: String?, telegram: String?,phone: String? ){
+    fun setContacts(email: String?, telegram: String?,phone: String?){
         this.email = email
         this.telegram = telegram
         this.phone = phone
@@ -98,6 +126,36 @@ class Student(
         map["telegram"] = telegram
         return map
     }
+
+    fun getShortNameString():String{
+        return fam_name+name[0].uppercaseChar()+father_name[0].uppercaseChar()
+    }
+    fun getContactString():String {
+        if (email != null) {
+            return "$email-email"
+        }
+        if (telegram != null) {
+            return "$telegram-telegram"
+        }
+        if (phone!=null){
+            return "$phone-phone"
+        }
+        return "noContact"
+    }
+    fun getGitString():String{
+        if(git!=null){
+            return git.toString()
+        }
+        return "_"
+    }
+
+    fun getInfo(): String{
+        val nameData = getShortNameString();
+        val gitData = getGitString();
+        val contactData:String = getContactString();
+        return "$nameData $gitData $contactData";
+    }
+
     constructor(name:String, fam_name: String, father_name: String, phone:String?, email:String?, git:String?, telegram: String?):this(name=name,fam_name=fam_name,father_name=father_name){
         if(phone!=null){
             this.phone = phone
@@ -113,17 +171,32 @@ class Student(
         }
     }
     constructor(map: HashMap<String, String?>): this(name=map["name"] as String,fam_name=map["fam_name"] as String,father_name=map["father_name"] as String) {
-        if(phone!=null){
+        if(map["phone"]!=null){
             phone = map["phone"]
         }
-        if(email!=null){
+        if(map["email"]!=null){
             email = map["email"]
         }
-        if(git!=null){
+        if(map["git"]!=null){
             git = map["git"]
         }
-        if(telegram!=null){
+        if(map["telegram"]!=null){
             telegram = map["telegram"]
+        }
+    }
+    constructor(longString: String):this(name = longString.split(" ")[0], fam_name = longString.split(" ")[1],father_name = longString.split(" ")[2]){
+        val parsedString = longString.split(" ")
+        if(parsedString[3]!="___"){
+            telegram = parsedString[3]
+        }
+        if(parsedString[4]!="___"){
+            email = parsedString[4]
+        }
+        if(parsedString[5]!="___"){
+            phone = parsedString[5]
+        }
+        if(parsedString[6]!="___"){
+            git = parsedString[6]
         }
     }
 }
