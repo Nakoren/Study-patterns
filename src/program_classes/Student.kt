@@ -1,10 +1,16 @@
 package program_classes
 
 class Student(
+    id: Int,
     name: String,
     fam_name: String,
     father_name: String
     ) {
+    var id: Int = id
+        set(value){
+            field = value
+        }
+
     var name: String = name
         set(value) {
             field = value
@@ -55,7 +61,7 @@ class Student(
         }
 
     override fun toString(): String {
-        var str = "$name $fam_name $father_name"
+        var str = "$id $name $fam_name $father_name"
         if (telegram == null){
             str+=" ___"
         }
@@ -117,6 +123,7 @@ class Student(
     }
     fun getHashMap():HashMap<String, String?>{
         val map = HashMap<String, String?>()
+        map["id"] = id.toString()
         map["name"] = name
         map["fam_name"] = fam_name
         map["father_name"] = father_name
@@ -156,7 +163,7 @@ class Student(
         return "$nameData $gitData $contactData";
     }
 
-    constructor(name:String, fam_name: String, father_name: String, phone:String?, email:String?, git:String?, telegram: String?):this(name=name,fam_name=fam_name,father_name=father_name){
+    constructor(id: Int, name:String, fam_name: String, father_name: String, phone:String?, email:String?, git:String?, telegram: String?):this(id = id, name=name,fam_name=fam_name,father_name=father_name){
         if(phone!=null){
             this.phone = phone
         }
@@ -170,7 +177,7 @@ class Student(
             this.git = git
         }
     }
-    constructor(map: HashMap<String, String?>): this(name=map["name"] as String,fam_name=map["fam_name"] as String,father_name=map["father_name"] as String) {
+    constructor(map: HashMap<String, String?>): this(id = map["id"]!!.toInt(),name=map["name"] as String,fam_name=map["fam_name"] as String,father_name=map["father_name"] as String) {
         if(map["phone"]!=null){
             phone = map["phone"]
         }
@@ -184,19 +191,19 @@ class Student(
             telegram = map["telegram"]
         }
     }
-    constructor(longString: String):this(name = longString.split(" ")[0], fam_name = longString.split(" ")[1],father_name = longString.split(" ")[2]){
+    constructor(longString: String):this(id = longString.split(" ")[0].toInt(),name = longString.split(" ")[1], fam_name = longString.split(" ")[2],father_name = longString.split(" ")[3]){
         val parsedString = longString.split(" ")
-        if(parsedString[3]!="___"){
-            telegram = parsedString[3]
-        }
         if(parsedString[4]!="___"){
-            email = parsedString[4]
+            telegram = parsedString[4]
         }
         if(parsedString[5]!="___"){
-            phone = parsedString[5]
+            email = parsedString[5]
         }
         if(parsedString[6]!="___"){
-            git = parsedString[6]
+            phone = parsedString[6]
+        }
+        if(parsedString[7]!="___"){
+            git = parsedString[7]
         }
     }
 }
