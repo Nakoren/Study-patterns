@@ -96,7 +96,7 @@ class Student(
     fun validate(): Boolean{
         return checkContactExistence() || checkGitExistence()
     }
-    fun checkContactExistence():Boolean{
+    private fun checkContactExistence():Boolean{
         return (email!=null || phone != null || telegram!=null)
     }
     fun checkGitExistence(): Boolean{
@@ -163,7 +163,7 @@ class Student(
         return "$nameData $gitData $contactData";
     }
 
-    constructor(id: Int, name:String, fam_name: String, father_name: String, phone:String?, email:String?, git:String?, telegram: String?):this(id = id, name=name,fam_name=fam_name,father_name=father_name){
+    constructor(id: Int, name:String, famName: String, fatherName: String, phone:String?, email:String?, git:String?, telegram: String?):this(id = id, name=name,fam_name=famName,father_name=fatherName){
         if(phone!=null){
             this.phone = phone
         }

@@ -5,9 +5,9 @@ fun main() {
     var Student2 = Student(id = 2, name = "name2", fam_name = "fam2", father_name = "fname2")
     var Student3 = Student(id = 3, name = "name3", fam_name = "fam3", father_name = "fname3")
 
-    var student4 = Student(id = 4, name = "name4", fam_name = "fam4", father_name = "fname4", phone = "+7918x   1579970", email = "mail@inbox.ru",null,null)
-    var stMap = student4.getHashMap()
-    var mapStudent = Student(stMap)
+    val student4 = Student(id = 4, name = "name4", fam_name = "fam4", father_name = "fname4", phone = "+7918x   1579970", email = "mail@inbox.ru",null,null)
+    val stMap = student4.getHashMap()
+    val mapStudent = Student(stMap)
     print(mapStudent)
     print(mapStudent.checkGitExistence())
     /*
