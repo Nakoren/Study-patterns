@@ -1,11 +1,27 @@
 package program_classes
 
 class Student_short(
-    val id : Int,
-    val shortName : String,
-    val git: String?,
-    val contact: String?
-){
+    id: Int,
+    shortName : String,
+    contact: String?,
+    git: String?
+)
+    :Student_root(git = null, id = id){
+
+    var shortName: Int = id
+        set(value){
+            field = value
+        }
+        get(){
+            return field
+        }
+    var contact: Int = id
+        set(value){
+            field = value
+        }
+        get(){
+            return field
+        }
     constructor(sourceSt: Student): this(
         id = sourceSt.id,
         shortName = sourceSt.getShortNameString(),

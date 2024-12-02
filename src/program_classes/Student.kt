@@ -4,13 +4,9 @@ class Student(
     id: Int,
     name: String,
     fam_name: String,
-    father_name: String
-    ) {
-    var id: Int = id
-        set(value){
-            field = value
-        }
-
+    father_name: String,
+    ): Student_root(git = null, id = id)
+{
     var name: String = name
         set(value) {
             field = value
@@ -35,15 +31,6 @@ class Student(
     var email: String?  = null
         set(value) {
             if (checkEmail(value!!)){
-                field = value
-            }
-            else{
-                field = null
-            }
-        }
-    var git: String?  = null
-        set(value) {
-            if (checkString(value!!)){
                 field = value
             }
             else{
@@ -103,19 +90,7 @@ class Student(
         return (git != null)&&(git != "")
     }
 
-    companion object{
-        fun checkPhone(phone: String): Boolean{
-            val reg = Regex("\\+?\\d{11}")
-            return reg.matches(phone)
-        }
-        fun checkEmail(email: String): Boolean{
-            val reg = Regex("[\\w,\\d]+@\\w+\\.\\w+")
-            return reg.containsMatchIn(email)
-        }
-        fun checkString(name: String): Boolean{
-            return name!=""
-        }
-    }
+
     fun setContacts(email: String?, telegram: String?,phone: String?){
         this.email = email
         this.telegram = telegram
