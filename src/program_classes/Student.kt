@@ -1,5 +1,8 @@
 package program_classes
 
+import java.io.File
+import java.io.FileNotFoundException
+
 class Student(
     id: Int,
     name: String,
@@ -46,6 +49,23 @@ class Student(
                 field = null
             }
         }
+
+    companion object{
+        fun readFromTxt(address: String): List<Student>{
+            val inputStream: File = File(address)
+
+            if(!inputStream.exists()){
+                throw FileNotFoundException("File not found")
+            }
+
+            var resList = mutableListOf<Student>()
+            inputStream.forEachLine {
+                resList.addLast(( Student(it) ) )
+            }
+
+            return resList;
+        }
+    }
 
     override fun toString(): String {
         var str = "$id $name $fam_name $father_name"
@@ -149,7 +169,7 @@ class Student(
             this.git = git
         }
         if(telegram!=null){
-            this.git = git
+            this.telegram = telegram
         }
     }
     constructor(map: HashMap<String, String?>): this(id = map["id"]!!.toInt(),name=map["name"] as String,fam_name=map["fam_name"] as String,father_name=map["father_name"] as String) {
