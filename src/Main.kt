@@ -10,9 +10,7 @@ fun main() {
 
     var stList = Student.readFromTxt("C:\\Users\\minen\\Desktop\\Study-patterns\\src\\Input.txt")
 
-    for (st in stList){
-        println(st.getInfo())
-    }
+    Student.writeToTxt("C:\\Users\\minen\\Desktop\\Study-patterns\\src", "Output.txt", stList)
 
 
     /*

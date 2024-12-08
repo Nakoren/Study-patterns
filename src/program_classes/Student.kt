@@ -58,12 +58,25 @@ class Student(
                 throw FileNotFoundException("File not found")
             }
 
-            var resList = mutableListOf<Student>()
+            val resList = mutableListOf<Student>()
             inputStream.forEachLine {
+                if(it!="")
                 resList.addLast(( Student(it) ) )
             }
 
             return resList;
+        }
+
+        fun writeToTxt(path: String, fileName: String, list: List<Student>){
+            val outputFile: File = File(path+"\\"+fileName)
+            val writer = outputFile.printWriter()
+            var resStr: String = ""
+            for (st in list){
+                resStr+=st.toString()+"\n"
+            }
+            writer.use{
+                out -> out.println(resStr)
+            }
         }
     }
 
