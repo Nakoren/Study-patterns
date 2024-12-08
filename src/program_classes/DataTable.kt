@@ -5,10 +5,24 @@ class DataTable(
 ) {
     private val table: List<List<Any>> = table
 
-    public val lenght: Int
-        get() = table.get(0).size
+    val lenght: Int
+        get() = table[0].size
 
-    public val height: Int
+    val height: Int
         get() = table.size
-    
+
+    fun getLength(): Int{
+        return this.lenght
+    }
+
+    fun getHeight(): Int{
+        return this.height
+    }
+
+    fun get(l:Int, h: Int): Any?{
+        if(l>=lenght||h>=height){
+            return null
+        }
+        return table[h][l]
+    }
 }
