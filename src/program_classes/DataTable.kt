@@ -1,9 +1,9 @@
 package program_classes
 
 class DataTable(
-    table: List<List<Any>>,
+    table: List<List<Any?>>,
 ) {
-    private val table: List<List<Any>> = table
+    private val table: List<List<Any?>> = table
 
     val lenght: Int
         get() = table[0].size

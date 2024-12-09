@@ -1,9 +1,9 @@
 package program_classes
 
-class DataList(
-    data: List<Any>,
+open class DataList(
+    data: List<Any>
 ) {
-    private val data: List<Any> = data
+    internal val data: List<Any?> = data
 
     private var selected: MutableList<Int> = mutableListOf<Int>()
 
@@ -16,11 +16,11 @@ class DataList(
         selected = mutableListOf<Int>()
     }
 
-    fun getNames(): List<String>{
+    open fun getNames(): List<String>{
         return mutableListOf<String>()
     }
 
-    fun getData(): DataTable{
+    open fun getData(): DataTable{
         return DataTable(mutableListOf<List<Any>>())
     }
 }

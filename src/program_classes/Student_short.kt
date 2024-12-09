@@ -15,13 +15,14 @@ class Student_short(
         get(){
             return field
         }
-    var contact: Int = id
+    var contact: String? = contact
         set(value){
             field = value
         }
         get(){
             return field
         }
+
     constructor(sourceSt: Student): this(
         id = sourceSt.id,
         shortName = sourceSt.getShortNameString(),
