@@ -14,8 +14,9 @@ class DataListStudentShort(
         var tableList = mutableListOf<List<Any?>>()
         var count: Int = 1;
         for (st in data){
-            if(st is Student_short)
-            tableList.addLast(listOf<Any?>(count, st.shortName, st.contact, st.git))
+            if(st is Student_short){
+                tableList.addLast(listOf<Any?>(count, st.shortName, st.contact, st.git))
+                }
             count++
         }
         return DataTable(tableList)

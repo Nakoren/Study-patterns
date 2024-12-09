@@ -8,7 +8,7 @@ class Student_short(
 )
     :Student_root(git = null, id = id){
 
-    var shortName: Int = id
+    var shortName: String = shortName
         set(value){
             field = value
         }

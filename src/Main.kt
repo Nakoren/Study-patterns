@@ -1,4 +1,4 @@
-import program_classes.Student
+import program_classes.*
 
 fun main() {
     var Student1 = Student( 1, "name1", "fam1", "fname1", null, "mail1", "git1", "tel1")
@@ -10,7 +10,17 @@ fun main() {
 
     var stList = Student.readFromTxt("C:\\Users\\minen\\Desktop\\Study-patterns\\src\\Input.txt")
 
-    Student.writeToTxt("C:\\Users\\minen\\Desktop\\Study-patterns\\src", "Output.txt", stList)
+    val stShortList = mutableListOf<Student_short>()
+    for(st in stList){
+        stShortList.addLast(Student_short(st))
+    }
+
+    val DataList = DataListStudentShort(stList = stShortList)
+
+    val extractor = StudentShortExtractor(DataList)
+
+    val extStudent = extractor.extractStudentShort(2)
+    println(extStudent.toString())
 
 
     /*

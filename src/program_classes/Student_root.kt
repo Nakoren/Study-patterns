@@ -20,6 +20,9 @@ open class Student_root(
                 field = null
             }
         }
+        get(){
+            return field
+        }
 
     companion object{
         fun checkPhone(phone: String): Boolean{
