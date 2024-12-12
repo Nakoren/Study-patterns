@@ -1,17 +1,15 @@
 package program_classes.FileReader
 
+import kotlinx.serialization.decodeFromString
+import net.mamoe.yamlkt.Yaml
 import program_classes.DataList
 import program_classes.Student
 import program_classes.Student_short
 import java.io.File
 import java.io.FileNotFoundException
 
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
-
-
-class Student_list_json{
+class Student_list_yaml{
     private var stList: MutableList<Student> = mutableListOf()
 
     fun readFromFile(address: String){
@@ -23,7 +21,7 @@ class Student_list_json{
 
         val inputStr = inputStream.readText()
 
-        val resList = Json.decodeFromString<MutableList<Student>>(inputStr)
+        val resList = Yaml.decodeFromString<MutableList<Student>>(inputStr)
 
         stList = resList
     }
@@ -32,10 +30,10 @@ class Student_list_json{
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
 
-        val json = Json.encodeToString(stList)
+        val res = Yaml.encodeToString(stList)
 
         writer.use{
-                out -> out.println(json)
+                out -> out.println(res)
         }
     }
 

@@ -10,7 +10,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" exported="" name="charleskorn.kaml" level="project" />
     <orderEntry type="library" exported="" name="jetbrains.kotlinx.serialization.json" level="project" />
+    <orderEntry type="library" exported="" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" exported="" name="net.mamoe.yamlkt.jvm" level="project" />
   </component>
 </module>
