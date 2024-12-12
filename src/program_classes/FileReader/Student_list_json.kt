@@ -6,7 +6,10 @@ import program_classes.Student_short
 import java.io.File
 import java.io.FileNotFoundException
 
-class Student_list_txt{
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
+class Student_list_json{
     private var stList: MutableList<Student> = mutableListOf()
 
     fun readFromFile(address: String){
@@ -16,24 +19,21 @@ class Student_list_txt{
             throw FileNotFoundException("File not found")
         }
 
-        val resList = mutableListOf<Student>()
-        inputStream.forEachLine {
-            if(it!="")
-                resList.addLast(( Student(it) ) )
-        }
+        val inputStr = inputStream.readText()
 
-        stList = resList;
+        val resList = Json.decodeFromString<MutableList<Student>>(inputStr)
+
+        stList = resList
     }
 
     fun writeToFile(path: String, fileName: String, list: List<Student>){
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
-        var resStr: String = ""
-        for (st in list){
-            resStr+=st.toString()+"\n"
-        }
+
+        val json = Json.encodeToString(stList)
+
         writer.use{
-                out -> out.println(resStr)
+                out -> out.println(json)
         }
     }
 
