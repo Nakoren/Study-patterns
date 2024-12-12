@@ -35,4 +35,8 @@ class Student_short(
         git = sourceString.split(" ")[1],
         contact = sourceString.split(" ")[2]
     )
+
+    override fun getNames(): List<String>{
+        return listOf("id", "short name", "contact", "git")
+    }
 }

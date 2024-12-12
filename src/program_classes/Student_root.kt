@@ -24,6 +24,10 @@ open class Student_root(
             return field
         }
 
+    open fun getNames():List<String>{
+        return listOf("id", "git")
+    }
+
     companion object{
         fun checkPhone(phone: String): Boolean{
             val reg = Regex("\\+?\\d{11}")

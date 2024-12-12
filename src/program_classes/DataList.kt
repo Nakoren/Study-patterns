@@ -1,9 +1,9 @@
 package program_classes
 
-open class DataList(
-    data: List<Any>
+open class DataList<T: Any>(
+    data: List<T>
 ) {
-    internal val data: List<Any?> = data
+    internal val data: List<T> = data
 
     private var selected: MutableList<Int> = mutableListOf<Int>()
 
@@ -16,8 +16,13 @@ open class DataList(
         selected = mutableListOf<Int>()
     }
 
-    open fun getNames(): List<String>{
-        return mutableListOf<String>()
+    inline fun <reified R: T>getNames(): List<String>{
+        val fields = R::class.java.declaredFields
+        val resList = mutableListOf<String>()
+        for(field in fields){
+            resList.addLast(field.name)
+        }
+        return resList
     }
 
     open fun getData(): DataTable{

@@ -4,11 +4,8 @@ package program_classes
 class DataListStudentShort(
     stList: List<Student_short>
 ):
-    DataList(data = stList)
+    DataList<Student_short>(data = stList)
 {
-    override fun getNames(): List<String> {
-        return listOf<String>("shortName", "contact", "git")
-    }
 
     override fun getData(): DataTable {
         var tableList = mutableListOf<List<Any?>>()
