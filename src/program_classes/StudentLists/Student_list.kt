@@ -1,15 +1,18 @@
-package program_classes.FileReader
+package program_classes.StudentLists
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import program_classes.DataList
 import program_classes.Student
 import program_classes.Student_short
 import java.io.File
 import java.io.FileNotFoundException
 
-class Student_list_txt{
-    private var stList: MutableList<Student> = mutableListOf()
+open class Student_list {
 
-    fun readFromFile(address: String){
+    var stList: MutableList<Student> = mutableListOf()
+
+    open fun readFromFile(address: String){
         val inputStream: File = File(address)
 
         if(!inputStream.exists()){
@@ -25,7 +28,7 @@ class Student_list_txt{
         stList = resList;
     }
 
-    fun writeToFile(path: String, fileName: String, list: List<Student>){
+    open fun writeToFile(path: String, fileName: String, list: List<Student>){
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
         var resStr: String = ""
@@ -48,7 +51,7 @@ class Student_list_txt{
         return restSt
     }
 
-    fun getKNStudentShortList(num:Int, startInd:Int): DataList<Student_short>{
+    fun getKNStudentShortList(num:Int, startInd:Int): DataList<Student_short> {
         if(startInd<0){
             return DataList<Student_short>(listOf())
         }
@@ -78,7 +81,7 @@ class Student_list_txt{
         stList.addLast(st)
     }
 
-    fun replace(st:Student, id: Int): Boolean{
+    fun replace(st: Student, id: Int): Boolean{
         if(checkIdExistence(id)){
             stList[id] = st
             return true
