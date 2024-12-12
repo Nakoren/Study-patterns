@@ -98,4 +98,8 @@ open class Student_list {
     fun getStudentShortCount():Int{
         return stList.count()
     }
+
+    fun setList(newList: MutableList<Student>){
+        stList = newList
+    }
 }
