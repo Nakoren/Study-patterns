@@ -28,11 +28,11 @@ open class Student_list {
         stList = resList;
     }
 
-    open fun writeToFile(path: String, fileName: String, list: List<Student>){
+    open fun writeToFile(path: String, fileName: String){
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
         var resStr: String = ""
-        for (st in list){
+        for (st in stList){
             resStr+=st.toString()+"\n"
         }
         writer.use{
