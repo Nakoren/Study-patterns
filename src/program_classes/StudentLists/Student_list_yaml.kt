@@ -25,7 +25,7 @@ class Student_list_yaml: Student_list(){
         stList = resList
     }
 
-    override fun writeToFile(path: String, fileName: String, list: List<Student>){
+    override fun writeToFile(path: String, fileName: String){
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
 
