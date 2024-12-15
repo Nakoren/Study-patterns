@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4ba7fdee-82d2-4796-a4cf-5d534eaebfd4" name="Changes" comment="Lab 2. Task 4. Added class Student_short with 2 constructors.&#10;Added id field in Student class, also fixed all constructors and functions in Student class">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/charleskorn_kaml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/jetbrains_kotlinx_serialization_json.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/net_mamoe_yamlkt_jvm.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Patterns_task.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Input.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Output.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/DataList.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/DataListStudentShort.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/DataTable.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/ListController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/Student.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/StudentLists/Student_list.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/StudentLists/Student_list_json.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/StudentLists/Student_list_txt.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/StudentLists/Student_list_yaml.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/StudentShortExtractor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/Student_root.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program_classes/Student_short.kt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KotlinCodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2lYs5V63FOcoD3zBNHhL81PCIuo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Kotlin.MainKt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/minen/Desktop/Unik/Паттерны/Patterns_task",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4ba7fdee-82d2-4796-a4cf-5d534eaebfd4" name="Changes" comment="" />
+      <created>1725368180608</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1725368180608</updated>
+      <workItem from="1725368181859" duration="3488000" />
+      <workItem from="1725617569804" duration="645000" />
+      <workItem from="1725972426419" duration="3943000" />
+      <workItem from="1726238482045" duration="379000" />
+      <workItem from="1726574046141" duration="5795000" />
+      <workItem from="1727182265781" duration="1571000" />
+      <workItem from="1727183865723" duration="944000" />
+      <workItem from="1727184839851" duration="3000" />
+      <workItem from="1727192035503" duration="2000" />
+      <workItem from="1727436885486" duration="18000" />
+      <workItem from="1727698307845" duration="135000" />
+      <workItem from="1727783601365" duration="1761000" />
+      <workItem from="1728042313049" duration="68000" />
+      <workItem from="1732670316092" duration="607000" />
+      <workItem from="1732896380233" duration="7000" />
+      <workItem from="1733139434095" duration="3225000" />
+      <workItem from="1733397043401" duration="128000" />
+      <workItem from="1733740257157" duration="789000" />
+      <workItem from="1734002515774" duration="1234000" />
+      <workItem from="1734046192467" duration="137000" />
+      <workItem from="1734304420707" duration="1565000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1725368569443</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1725368569443</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Config commit">
+      <option name="closed" value="true" />
+      <created>1725368704556</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1725368704556</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Lab 1. Task 1. Added class Student with properties, getters and setters">
+      <option name="closed" value="true" />
+      <created>1725370562163</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1725370562163</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Lab 1. Task 2. Added toString override for Student class, also added some test objects in main class.">
+      <option name="closed" value="true" />
+      <created>1725371548673</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1725371548673</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Lab 1. Task 8. Added functions validate, checkGit and checkTelegram to check existing of at least one contact field">
+      <option name="closed" value="true" />
+      <created>1725973231163</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1725973231163</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Lab 1. Task 6. Added validation for phone with using companion objects">
+      <option name="closed" value="true" />
+      <created>1725974411140</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1725974411140</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Lab 1. Task 7. Added validation for all other fields">
+      <option name="closed" value="true" />
+      <created>1725975050776</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1725975050776</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Lab 1. Task 9. Added setContacts function for editing contacts">
+      <option name="closed" value="true" />
+      <created>1726574643423</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1726574643423</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Lab 1. Task 4/5. Primary constructor has been made smaller. Added 2 new constructor with extended parameters and hashmap. Fixed phone validation">
+      <option name="closed" value="true" />
+      <created>1726578726465</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1726578726465</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Lab 2. Task 3. Added getInfo, getContactString, getShortNameString and getGitString functions to Student class">
+      <option name="closed" value="true" />
+      <created>1727789128594</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1727789128594</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Lab 2. Task 4. Added class Student_short with 2 constructors.&#10;Added id field in Student class, also fixed all constructors and functions in Student class">
+      <option name="closed" value="true" />
+      <created>1727790360542</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1727790360542</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="Config commit" />
+    <MESSAGE value="Lab 1. Task 1. Added class Student with properties, getters and setters" />
+    <MESSAGE value="Lab 1. Task 2. Added toString override for Student class, also added some test objects in main class." />
+    <MESSAGE value="Lab 1. Task 8. Added functions validate, checkGit and checkTelegram to check existing of at least one contact field" />
+    <MESSAGE value="Lab 1. Task 6. Added validation for phone with using companion objects" />
+    <MESSAGE value="Lab 1. Task 7. Added validation for all other fields" />
+    <MESSAGE value="Lab 1. Task 9. Added setContacts function for editing contacts" />
+    <MESSAGE value="Lab 1. Task 4/5. Primary constructor has been made smaller. Added 2 new constructor with extended parameters and hashmap. Fixed phone validation" />
+    <MESSAGE value="Lab 1. Task 8. Fixed validation functions" />
+    <MESSAGE value="Lab 2. Task 3. Added getInfo, getContactString, getShortNameString and getGitString functions to Student class" />
+    <MESSAGE value="Lab 2. Task 4. Added class Student_short with 2 constructors.&#10;Added id field in Student class, also fixed all constructors and functions in Student class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lab 2. Task 4. Added class Student_short with 2 constructors.&#10;Added id field in Student class, also fixed all constructors and functions in Student class" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/program_classes/StudentLists/Student_list_json.kt</url>
+          <line>27</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

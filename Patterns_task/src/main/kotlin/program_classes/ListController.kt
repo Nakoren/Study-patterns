@@ -9,6 +9,10 @@ class ListController (
 
     var stList: Student_list = Student_list()
 
+    fun read(){
+        stList.readFromFile(path)
+    }
+
     fun rebase(newList: Student_list){
         newList.setList(stList.stList)
         stList = newList

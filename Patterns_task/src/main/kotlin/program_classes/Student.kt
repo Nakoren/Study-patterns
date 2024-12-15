@@ -1,7 +1,11 @@
 package program_classes
 
+import kotlinx.serialization.*
 import java.io.File
 import java.io.FileNotFoundException
+
+
+@Serializable
 
 class Student(
     id: Int,

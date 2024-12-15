@@ -1,18 +1,13 @@
 package program_classes.StudentLists
 
-import program_classes.DataList
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import program_classes.Student
-import program_classes.Student_short
 import java.io.File
 import java.io.FileNotFoundException
 
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-
-
 
 class Student_list_json: Student_list(){
-
 
     override fun readFromFile(address: String){
         val inputStream: File = File(address)

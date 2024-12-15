@@ -1,10 +1,10 @@
 package program_classes
 
 class StudentShortExtractor (
-    dList: DataList
+    dList: DataList<Student>
 )
 {
-    val dList: DataList = dList
+    val dList: DataList<Student> = dList
 
     fun extractStudentShort(num: Int): Student_short?{
         val table: DataTable = dList.getData()
