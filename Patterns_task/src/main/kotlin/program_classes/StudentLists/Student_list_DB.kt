@@ -1,41 +1,27 @@
 package program_classes.StudentLists
 
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
+import DataBaseClasses.DataBaseConnection
 import program_classes.Student
-import java.io.File
-import java.io.FileNotFoundException
-import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.ResultSet
-import java.util.*
 import kotlin.collections.HashMap
 
 class Student_list_DB {
-    private var conn: Connection? = null;
 
     init {
-        createConnection()
-
+        DataBaseConnection.createConnection()
     }
 
     fun getStudentById(id: Int): Student? {
-        val request = "SELECT * FROM ref_student as t where t.id=${id}"
-        val result = executeSqlSelect(request);
+        val request = "SELECT * FROM Student as t where t.id=${id}"
+        val result = DataBaseConnection.executeSqlSelect(request)
         if (result != null && result.next()) {
             val resultHash:HashMap<String,String?> = hashMapOf<String,String?>()
-            resultHash.set("id",result.getString("id"))
+            resultHash.set("ID",result.getString("ID"))
             resultHash.set("name",result.getString("name"))
-            resultHash.set("surname",result.getString("surname"))
-            resultHash.set("patronymic",result.getString("patronymic"))
-            resultHash.set("phoneNumber",result.getString("phoneNumber"))
-            resultHash.set("gitHub",result.getString("gitHub"))
+            resultHash.set("fam_name",result.getString("fam_name"))
+            resultHash.set("father_name",result.getString("father_name"))
+            resultHash.set("phone",result.getString("phone"))
             resultHash.set("email",result.getString("email"))
+            resultHash.set("git",result.getString("git"))
             resultHash.set("telegram",result.getString("telegram"))
             result.close();
             return Student(resultHash);
@@ -44,19 +30,19 @@ class Student_list_DB {
     }
 
     fun getKStudents(n: Int, k: Int): List<Student> {
-        val request = "SELECT * FROM ref_student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
-        val result = executeSqlSelect(request);
+        val request = "SELECT * FROM Student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
+        val result = DataBaseConnection.executeSqlSelect(request);
         if (result != null) {
             val resultList:MutableList<Student> = mutableListOf()
             while(result.next()){
                 val resultHash:HashMap<String,String?> = hashMapOf<String,String?>()
-                resultHash.set("id",result.getString("id"))
+                resultHash.set("ID",result.getString("ID"))
                 resultHash.set("name",result.getString("name"))
-                resultHash.set("surname",result.getString("surname"))
-                resultHash.set("patronymic",result.getString("patronymic"))
-                resultHash.set("phoneNumber",result.getString("phoneNumber"))
-                resultHash.set("gitHub",result.getString("gitHub"))
+                resultHash.set("fam_name",result.getString("fam_name"))
+                resultHash.set("father_name",result.getString("father_name"))
+                resultHash.set("phone",result.getString("phone"))
                 resultHash.set("email",result.getString("email"))
+                resultHash.set("git",result.getString("git"))
                 resultHash.set("telegram",result.getString("telegram"))
                 resultList.add(Student(resultHash));
             }
@@ -78,8 +64,8 @@ class Student_list_DB {
         }
         columns=columns.dropLast(1)
         values=values.dropLast(1)
-        val request = "insert into ref_student(${columns}) values (${values})"
-        executeSql(request);
+        val request = "insert into Student(${columns}) values (${values})"
+        DataBaseConnection.executeSql(request);
     }
 
     fun updateStudent(id:Int,student: Student) {
@@ -91,18 +77,18 @@ class Student_list_DB {
             }
         }
         values=values.dropLast(1)
-        val request = "update ref_student t set ${values} where t.id=${id}"
-        executeSql(request);
+        val request = "update Student t set ${values} where t.id=${id}"
+        DataBaseConnection.executeSql(request);
     }
 
     fun deleteStudent(id: Int) {
-        val request = "delete from ref_student as t where t.id=${id}"
-        executeSql(request);
+        val request = "delete from Student as t where t.id=${id}"
+        DataBaseConnection.executeSql(request);
     }
     //
     fun getCount(): Int {
-        val request = "SELECT count(*) as c FROM ref_student"
-        val result = executeSqlSelect(request);
+        val request = "SELECT count(*) as c FROM Student"
+        val result = DataBaseConnection.executeSqlSelect(request);
         if (result != null && result.next()) {
             val count = result.getInt("c");
             result.close();
@@ -111,36 +97,5 @@ class Student_list_DB {
         return 0;
     }
 
-    fun createConnection(){
-        val url = "jdbc:postgresql://localhost:1434/StudentDataBase"
-        val user = "DESKTOP-HKQJ7CQ"
-        val password = ""
-        this.conn = null
-        try {
-            this.conn = DriverManager.getConnection(url, user, password)
-        } catch (e: Exception) {
-            println(e.message)
-        }
-    }
 
-
-    fun executeSqlSelect(query:String): ResultSet? {
-        val res: LinkedList<HashMap<String, Any>>;
-        try {
-            val statement = conn?.createStatement()
-            if (statement != null) {
-                return statement.executeQuery(query)
-            }
-        } catch (e: java.lang.Exception) {
-            println(e.message)
-        }
-        return null;
-    }
-    fun executeSql(query:String){
-        try {
-            val affectedRows = conn?.prepareStatement(query)?.executeUpdate()
-        } catch (e: java.lang.Exception) {
-            println(e)
-        }
-    }
 }
