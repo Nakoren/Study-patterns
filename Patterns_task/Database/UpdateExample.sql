@@ -1,0 +1,1 @@
+update Student set name = 'changedName' where (ID = 1);

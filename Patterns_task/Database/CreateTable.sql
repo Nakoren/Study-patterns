@@ -1,0 +1,1 @@
+create table Student(ID int primary key, name varchar(50) not null, fam_name varchar(50) not null, father_name varchar(50) not null, phone varchar(50), email varchar(50), git varchar(50), telegram varchar(50));

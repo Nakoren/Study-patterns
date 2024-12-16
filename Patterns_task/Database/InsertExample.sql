@@ -1,0 +1,4 @@
+Insert into Student(ID, name, fam_name, father_name, phone, email, git, telegram) values(1,'name1', 'fam_name1', 'fath_name1', '+19121841313','testMail1@test.ru','testGit1', 'testTelegram1');
+Insert into Student(ID, name, fam_name, father_name, phone, email, git, telegram) values(2,'name2', 'fam_name2', 'fath_name2', '+19791046515','testMail2@test.ru','testGit2', 'testTelegram2');
+Insert into Student(ID, name, fam_name, father_name, phone, email, git, telegram) values(3,'name3', 'fam_name3', 'fath_name3', '+54239615412','testMail3@test.ru','testGit3', 'testTelegram3');
+Insert into Student(ID, name, fam_name, father_name, phone, email, git, telegram) values(4,'name4', 'fam_name4', 'fath_name4', '+91450459461','testMail4@test.ru','testGit4', 'testTelegram4');
