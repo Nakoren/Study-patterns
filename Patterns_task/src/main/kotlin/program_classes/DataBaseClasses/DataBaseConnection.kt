@@ -5,16 +5,27 @@ import java.sql.DriverManager
 import java.sql.ResultSet
 import java.util.LinkedList
 
-object DataBaseConnection {
-    private var conn: Connection? = null
+class DataBaseConnection private constructor() {
+
+    var conn: Connection? = null
+    companion object {
+        private var dataBaseConnection: DataBaseConnection? = null
+
+        fun init(){
+            dataBaseConnection = DataBaseConnection()
+            dataBaseConnection!!.createConnection()
+        }
+
+        fun getConnection(): DataBaseConnection = dataBaseConnection!!
+    }
 
     fun createConnection(){
         val url = "jdbc:postgresql://localhost:1434/StudentDataBase"
-        val user = "DESKTOP-HKQJ7CQ"
+        val user = "DESKTOP-HKQJ7CQ\\minen"
         val password = ""
-        this.conn = null
+        conn = null
         try {
-            this.conn = DriverManager.getConnection(url, user, password)
+            conn = DriverManager.getConnection(url, user, password)
         } catch (e: Exception) {
             println(e.message)
         }

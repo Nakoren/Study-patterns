@@ -8,13 +8,11 @@ import kotlin.collections.HashMap
 
 class Student_list_DB {
 
-    init {
-        DataBaseConnection.createConnection()
-    }
+    private val connection: DataBaseConnection = DataBaseConnection.getConnection()
 
     fun getStudentById(id: Int): Student? {
         val request = "SELECT * FROM Student as t where t.id=${id}"
-        val result = DataBaseConnection.executeSqlSelect(request)
+        val result = connection.executeSqlSelect(request)
         if (result != null && result.next()) {
             val resultHash:HashMap<String,String?> = hashMapOf<String,String?>()
             resultHash.set("ID",result.getString("ID"))
@@ -33,7 +31,7 @@ class Student_list_DB {
 
     fun getKNStudentShortList(n: Int, k: Int): DataList<Student_short> {
         val request = "SELECT * FROM Student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
-        val result = DataBaseConnection.executeSqlSelect(request);
+        val result = connection.executeSqlSelect(request);
         if (result != null) {
             val resultList:MutableList<Student_short> = mutableListOf()
             while(result.next()){
@@ -67,7 +65,7 @@ class Student_list_DB {
         columns=columns.dropLast(1)
         values=values.dropLast(1)
         val request = "insert into Student(${columns}) values (${values})"
-        DataBaseConnection.executeSql(request);
+        connection.executeSql(request);
     }
 
     fun updateStudent(id:Int,student: Student) {
@@ -80,17 +78,17 @@ class Student_list_DB {
         }
         values=values.dropLast(1)
         val request = "update Student t set ${values} where t.id=${id}"
-        DataBaseConnection.executeSql(request);
+        connection.executeSql(request);
     }
 
     fun deleteStudent(id: Int) {
         val request = "delete from Student as t where t.id=${id}"
-        DataBaseConnection.executeSql(request);
+        connection.executeSql(request);
     }
     //
     fun getCount(): Int {
         val request = "SELECT count(*) as c FROM Student"
-        val result = DataBaseConnection.executeSqlSelect(request);
+        val result = connection.executeSqlSelect(request);
         if (result != null && result.next()) {
             val count = result.getInt("c");
             result.close();

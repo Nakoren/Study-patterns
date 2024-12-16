@@ -1,3 +1,4 @@
+import DataBaseClasses.DataBaseConnection
 import program_classes.ListController
 import program_classes.Student
 import program_classes.StudentLists.*
@@ -45,6 +46,7 @@ fun main() {
     */
     */
 
+    DataBaseConnection.init()
+
     var stListDB = Student_list_DB()
-    stListDB.createConnection()
 }

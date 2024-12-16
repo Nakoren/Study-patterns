@@ -8,7 +8,7 @@ import java.io.FileNotFoundException
 
 open class Student_list {
 
-    var stList: MutableList<Student> = mutableListOf()
+    internal var stList: MutableList<Student> = mutableListOf()
 
     open fun readFromFile(address: String){
         val inputStream: File = File(address)
