@@ -1,8 +1,6 @@
 import program_classes.ListController
 import program_classes.Student
-import program_classes.StudentLists.Student_list_json
-import program_classes.StudentLists.Student_list_txt
-import program_classes.StudentLists.Student_list_yaml
+import program_classes.StudentLists.*
 
 fun main() {
     var Student1 = Student( 1, "name1", "fam1", "fname1", null, "mail1", "git1", "tel1")
@@ -14,6 +12,7 @@ fun main() {
 
     var stListController = ListController("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\Input.txt")
 
+    /*
     stListController.read()
 
     stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\", "output.txt")
@@ -40,12 +39,12 @@ fun main() {
     stListController.path = "C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\output.yaml"
     stListController.read()
 
-
-
     /*
     val studMap = Student1.getHashMap()
     val studFromMap = Student(studMap)
     */
+    */
 
-
+    var stListDB = Student_list_DB()
+    stListDB.createConnection()
 }
