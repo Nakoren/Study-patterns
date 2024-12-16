@@ -1,7 +1,6 @@
 package program_classes.StudentLists
 
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import program_classes.DataList
 import program_classes.Student
 import program_classes.Student_short
@@ -101,5 +100,19 @@ open class Student_list {
 
     fun setList(newList: MutableList<Student>){
         stList = newList
+    }
+
+    fun convertMap(hashM: Map<String, String?>): Map<String, Any> {
+        val res = mutableMapOf<String, Any>()
+        for ((key, value) in hashM.entries) {
+            if (value != null) res.set(key, value.toString())
+        }
+        return res
+    }
+
+    open fun createMap(el: Any): HashMap<String, String?> {
+        val map = HashMap<String, String?>()
+
+        return map
     }
 }

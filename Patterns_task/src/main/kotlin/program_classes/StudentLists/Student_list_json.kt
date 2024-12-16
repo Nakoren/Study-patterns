@@ -6,6 +6,14 @@ import program_classes.Student
 import java.io.File
 import java.io.FileNotFoundException
 
+import NumberOrStringSerializer
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+
 
 class Student_list_json: Student_list(){
 
@@ -18,19 +26,31 @@ class Student_list_json: Student_list(){
 
         val inputStr = inputStream.readText()
 
-        val resList = Json.decodeFromString<MutableList<Student>>(inputStr)
+        stList.clear()
+        val jsonOb = Json.parseToJsonElement(inputStr).jsonArray
+        jsonOb.forEach { stList.add(Student(createMap(it.jsonObject))) }
 
-        stList = resList
     }
 
     override fun writeToFile(path: String, fileName: String){
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
 
-        val json = Json.encodeToString(stList)
+        val jsonFormat = Json { prettyPrint = true }
+        val res = jsonFormat.encodeToString(
+            ListSerializer(MapSerializer(String.serializer(), NumberOrStringSerializer)),
+            stList.map { convertMap(it.getHashMap()) })
 
         writer.use{
-                out -> out.println(json)
+                out -> out.println(res)
         }
+    }
+
+    override fun createMap(el: Any): HashMap<String, String?> {
+        val map = HashMap<String, String?>()
+        for ((key, value) in el as JsonObject) {
+            map[key] = value.toString().replace("\"", "")
+        }
+        return map
     }
 }

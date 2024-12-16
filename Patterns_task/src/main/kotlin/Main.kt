@@ -12,12 +12,11 @@ fun main() {
     var Student3 = Student(id = 3, name = "name3", fam_name = "fam3", father_name = "fname3")
     println(Student3.toString())
 
-
-    var stListController = ListController("C:\\Users\\minen\\Desktop\\Unik\\Паттерны\\Patterns_task\\src\\Input.txt")
+    var stListController = ListController("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\Input.txt")
 
     stListController.read()
 
-    stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Unik\\Паттерны\\Patterns_task\\src", "output.txt")
+    stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\", "output.txt")
 
     val listJSon = Student_list_json()
     val listYaml = Student_list_yaml()
@@ -25,12 +24,21 @@ fun main() {
 
     /*
     stListController.rebase(listJSon)
-    stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Unik\\Паттерны\\Patterns_task\\src", "outputJson.txt")
+    stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\", "output.json")
+
+
+    stListController.path = "C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\output.json"
+    stListController.read()
+
     */
 
-    stListController.rebase(listYaml)
-    stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Unik\\Паттерны\\Patterns_task\\src", "outputYaml.txt")
 
+    stListController.rebase(listYaml)
+    /*
+    stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\", "output.yaml")
+    */
+    stListController.path = "C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\output.yaml"
+    stListController.read()
 
 
 

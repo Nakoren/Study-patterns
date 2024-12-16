@@ -11,8 +11,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json")
-    implementation ("com.charleskorn.kaml:kaml")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+    implementation ("com.charleskorn.kaml:kaml:0.60.0")
 }
 
 tasks.test {
