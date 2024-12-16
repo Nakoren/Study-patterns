@@ -1,7 +1,9 @@
 package program_classes.StudentLists
 
 import DataBaseClasses.DataBaseConnection
+import program_classes.DataList
 import program_classes.Student
+import program_classes.Student_short
 import kotlin.collections.HashMap
 
 class Student_list_DB {
@@ -29,11 +31,11 @@ class Student_list_DB {
         return null;
     }
 
-    fun getKStudents(n: Int, k: Int): List<Student> {
+    fun getKNStudentShortList(n: Int, k: Int): DataList<Student_short> {
         val request = "SELECT * FROM Student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
         val result = DataBaseConnection.executeSqlSelect(request);
         if (result != null) {
-            val resultList:MutableList<Student> = mutableListOf()
+            val resultList:MutableList<Student_short> = mutableListOf()
             while(result.next()){
                 val resultHash:HashMap<String,String?> = hashMapOf<String,String?>()
                 resultHash.set("ID",result.getString("ID"))
@@ -44,15 +46,15 @@ class Student_list_DB {
                 resultHash.set("email",result.getString("email"))
                 resultHash.set("git",result.getString("git"))
                 resultHash.set("telegram",result.getString("telegram"))
-                resultList.add(Student(resultHash));
+                resultList.add(Student_short(Student(resultHash)));
             }
             result.close();
-            return resultList;
+            return DataList<Student_short>(resultList);
         };
-        return mutableListOf();
+        return DataList<Student_short>(mutableListOf());
     }
 
-    fun addStudent(student: Student) {
+    fun add(student: Student) {
         val studentProps = student.getHashMap()
         var columns = "";
         var values = "";
@@ -96,6 +98,4 @@ class Student_list_DB {
         };
         return 0;
     }
-
-
 }
