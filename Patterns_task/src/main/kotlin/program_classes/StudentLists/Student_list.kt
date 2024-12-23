@@ -1,12 +1,13 @@
 package program_classes.StudentLists
 
 import program_classes.DataList
+import program_classes.Interfaces.IStudent_list
 import program_classes.Student
 import program_classes.Student_short
 import java.io.File
 import java.io.FileNotFoundException
 
-open class Student_list {
+open class Student_list: IStudent_list {
 
     internal var stList: MutableList<Student> = mutableListOf()
 
@@ -38,7 +39,7 @@ open class Student_list {
         }
     }
 
-    fun getStudent(id: Int): Student?{
+    override fun getStudent(id: Int): Student?{
         if((id>=stList.size)||(id<0)){
             return null
         }
@@ -49,7 +50,7 @@ open class Student_list {
         return restSt
     }
 
-    fun getKNStudentShortList(num:Int, startInd:Int): DataList<Student_short> {
+    override open fun getKNStudentShortList(num:Int, startInd:Int): DataList<Student_short> {
         if(startInd<0){
             return DataList<Student_short>(listOf())
         }
@@ -72,14 +73,14 @@ open class Student_list {
         return false
     }
 
-    fun add(st: Student){
+    override fun add(st: Student){
         var tempId = 0
         while (checkIdExistence(tempId)) tempId++
         st.id = tempId
         stList.addLast(st)
     }
 
-    fun replace(st: Student, id: Int): Boolean{
+    override fun replace(st: Student, id: Int): Boolean{
         if(checkIdExistence(id)){
             stList[id] = st
             return true
@@ -87,13 +88,13 @@ open class Student_list {
         return false
     }
 
-    fun delete(id: Int){
+    override fun delete(id: Int){
         if(checkIdExistence(id)){
             stList.removeAt(id)
         }
     }
 
-    fun getStudentShortCount():Int{
+    override fun getStudentShortCount():Int{
         return stList.count()
     }
 

@@ -6,7 +6,7 @@ import program_classes.Student
 import program_classes.Student_short
 import kotlin.collections.HashMap
 
-class Student_list_DB {
+class Student_list_DB: Student_list() {
 
     private val connection: DataBaseConnection = DataBaseConnection.getConnection()
 
@@ -15,21 +15,21 @@ class Student_list_DB {
         val result = connection.executeSqlSelect(request)
         if (result != null && result.next()) {
             val resultHash:HashMap<String,String?> = hashMapOf<String,String?>()
-            resultHash.set("ID",result.getString("ID"))
-            resultHash.set("name",result.getString("name"))
-            resultHash.set("fam_name",result.getString("fam_name"))
-            resultHash.set("father_name",result.getString("father_name"))
-            resultHash.set("phone",result.getString("phone"))
-            resultHash.set("email",result.getString("email"))
-            resultHash.set("git",result.getString("git"))
-            resultHash.set("telegram",result.getString("telegram"))
+            resultHash["ID"] = result.getString("ID")
+            resultHash["name"] = result.getString("name")
+            resultHash["fam_name"] = result.getString("fam_name")
+            resultHash["father_name"] = result.getString("father_name")
+            resultHash["phone"] = result.getString("phone")
+            resultHash["email"] = result.getString("email")
+            resultHash["git"] = result.getString("git")
+            resultHash["telegram"] = result.getString("telegram")
             result.close();
             return Student(resultHash);
         };
         return null;
     }
 
-    fun getKNStudentShortList(n: Int, k: Int): DataList<Student_short> {
+    override fun getKNStudentShortList(n: Int, k: Int): DataList<Student_short> {
         val request = "SELECT * FROM Student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
         val result = connection.executeSqlSelect(request);
         if (result != null) {
@@ -52,8 +52,8 @@ class Student_list_DB {
         return DataList<Student_short>(mutableListOf());
     }
 
-    fun add(student: Student) {
-        val studentProps = student.getHashMap()
+    override fun add(st: Student) {
+        val studentProps = st.getHashMap()
         var columns = "";
         var values = "";
         for(key in studentProps.keys){
