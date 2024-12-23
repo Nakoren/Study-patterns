@@ -21,8 +21,8 @@ class DataBaseConnection private constructor() {
 
     fun createConnection(){
         val url = "jdbc:postgresql://localhost:1434/StudentDataBase"
-        val user = "DESKTOP-HKQJ7CQ\\minen"
-        val password = ""
+        val user = "StudentProgram"
+        val password = "ready"
         conn = null
         try {
             conn = DriverManager.getConnection(url, user, password)
