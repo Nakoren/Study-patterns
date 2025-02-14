@@ -1,4 +1,4 @@
-package program_classes.GUI.LocalElements
+package program_classes.View.GUI.LocalElements
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
@@ -14,7 +14,21 @@ import javafx.scene.text.Text
 
 class TextFieldWithOption(): GridPane() {
     var text: String = ""
-    var textField: TextField = TextField()
+    lateinit var textField: TextField
+    lateinit var comboBox: ComboBox<String>
+
+    fun getValue(): String {
+        if (textField.text == null){
+            return ""
+        }
+        return textField.text
+    }
+    fun getChoiceValue(): Int{
+        if(comboBox.value == "Yes") return 1
+        if(comboBox.value == "No") return -1
+        return 0
+    }
+
     constructor(text: String): this(){
         this.text = text
         alignment = Pos.TOP_LEFT
@@ -32,7 +46,7 @@ class TextFieldWithOption(): GridPane() {
         add(textField, 0, 1)
 
         val obsList: ObservableList<String> = FXCollections.observableArrayList("Yes", "No", "Doesn't matter")
-        val comboBox: ComboBox<String> = ComboBox(obsList)
+        comboBox = ComboBox(obsList)
         comboBox.setOnAction {
             val value = comboBox.value
             if(value == "Yes"){
@@ -45,7 +59,5 @@ class TextFieldWithOption(): GridPane() {
         }
         comboBox.value = "Doesn't matter"
         add(comboBox, 0, 2)
-
-
     }
 }

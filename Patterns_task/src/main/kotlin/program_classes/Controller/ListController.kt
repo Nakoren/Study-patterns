@@ -1,6 +1,6 @@
-package program_classes
+package program_classes.Controller
 
-import program_classes.StudentLists.Student_list
+import program_classes.Model.StudentLists.Student_list
 
 class ListController (
     path: String,

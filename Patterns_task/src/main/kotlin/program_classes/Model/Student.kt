@@ -1,4 +1,4 @@
-package program_classes
+package program_classes.Model
 
 
 import java.io.File

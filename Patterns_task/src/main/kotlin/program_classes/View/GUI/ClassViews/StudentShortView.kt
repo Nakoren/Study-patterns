@@ -1,8 +1,6 @@
-package program_classes.GUI.ClassViews
-import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleStringProperty
+package program_classes.View.GUI.ClassViews
 
-import program_classes.Student_short
+import program_classes.Model.Student_short
 
 class StudentShortView() {
     var id: Int = 0

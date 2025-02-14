@@ -1,4 +1,4 @@
-package program_classes.GUI
+package program_classes.View.GUI
 
 import javax.swing.*
 

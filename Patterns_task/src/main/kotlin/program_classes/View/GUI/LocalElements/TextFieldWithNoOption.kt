@@ -1,4 +1,4 @@
-package program_classes.GUI.LocalElements
+package program_classes.View.GUI.LocalElements
 
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -11,6 +11,7 @@ import javafx.scene.text.Text
 
 class TextFieldWithNoOption(): GridPane() {
     var text: String = ""
+    lateinit var textField: TextField
     constructor(text: String): this(){
         this.text = text
         alignment = Pos.TOP_LEFT
@@ -23,8 +24,13 @@ class TextFieldWithNoOption(): GridPane() {
 
         val textNode: Text = Text(text); textNode.font = Font(25.0);
         add(textNode, 0, 0)
-        val textField: TextField = TextField()
+        textField = TextField()
         add(textField, 0, 1)
-
+    }
+    fun getValue(): String {
+        if (textField.text == null){
+            return ""
+        }
+        return textField.text
     }
 }

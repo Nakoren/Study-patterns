@@ -1,5 +1,6 @@
-package program_classes
+package program_classes.Model
 
+import program_classes.View.GUI.ClassViews.StudentShortView
 
 
 class Student_short(
@@ -7,10 +8,8 @@ class Student_short(
     shortName : String,
     contact: String?,
     git: String?
-) :Student_root(git = null, id = id)
+) : Student_root(git = null, id = id)
 {
-
-
     var shortName: String = shortName
         set(value) {
             field = value
@@ -38,6 +37,13 @@ class Student_short(
         shortName = sourceString.split(" ")[0],
         git = sourceString.split(" ")[1],
         contact = sourceString.split(" ")[2]
+    )
+
+    constructor(stView: StudentShortView):this(
+        id = stView.id,
+        shortName = stView.name,
+        git = stView.name,
+        contact = stView.contact
     )
 
     override fun getNames(): List<String> {

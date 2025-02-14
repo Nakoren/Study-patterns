@@ -1,20 +1,16 @@
-package program_classes.StudentLists
-
-import kotlinx.serialization.json.Json
-import program_classes.Student
-import java.io.File
-import java.io.FileNotFoundException
+package program_classes.Model.StudentLists
 
 import NumberOrStringSerializer
+import com.charleskorn.kaml.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
+import program_classes.Model.Student
+import java.io.File
+import java.io.FileNotFoundException
 
 
-class Student_list_json: Student_list(){
+class Student_list_yaml: Student_list(){
 
     override fun readFromFile(address: String){
         val inputStream: File = File(address)
@@ -26,19 +22,18 @@ class Student_list_json: Student_list(){
         val inputStr = inputStream.readText()
 
         stList.clear()
-        val jsonOb = Json.parseToJsonElement(inputStr).jsonArray
-        jsonOb.forEach { stList.add(Student(createMap(it.jsonObject))) }
-
+        val yamlOb = Yaml.default.parseToYamlNode(inputStr).yamlList
+        yamlOb.items.forEach {stList.add(Student(createMap(it.yamlMap)))}
     }
 
     override fun writeToFile(path: String, fileName: String){
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
 
-        val jsonFormat = Json { prettyPrint = true }
-        val res = jsonFormat.encodeToString(
-            ListSerializer(MapSerializer(String.serializer(), NumberOrStringSerializer)),
-            stList.map { convertMap(it.getHashMap()) })
+        val res = Yaml.default.encodeToString(ListSerializer(MapSerializer(String.serializer(),
+            NumberOrStringSerializer
+        )),stList.map { convertMap(it.getHashMap()) })
+
 
         writer.use{
                 out -> out.println(res)
@@ -47,8 +42,8 @@ class Student_list_json: Student_list(){
 
     override fun createMap(el: Any): HashMap<String, String?> {
         val map = HashMap<String, String?>()
-        for ((key, value) in el as JsonObject) {
-            map[key] = value.toString().replace("\"", "")
+        for ((key, value) in (el as YamlMap).entries.entries) {
+            map[key.content] = value.yamlScalar.content
         }
         return map
     }

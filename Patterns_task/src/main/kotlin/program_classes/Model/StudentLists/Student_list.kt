@@ -1,9 +1,10 @@
-package program_classes.StudentLists
+package program_classes.Model.StudentLists
 
-import program_classes.DataList
-import program_classes.Interfaces.IStudent_list
-import program_classes.Student
-import program_classes.Student_short
+import program_classes.Model.DataList
+import program_classes.Model.DataListStudentShort
+import program_classes.Model.Interfaces.IStudent_list
+import program_classes.Model.Student
+import program_classes.Model.Student_short
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -50,9 +51,9 @@ open class Student_list: IStudent_list {
         return restSt
     }
 
-    override open fun getKNStudentShortList(num:Int, startInd:Int): DataList<Student_short> {
+    override open fun getKNStudentShortList(num:Int, startInd:Int): DataListStudentShort {
         if(startInd<0){
-            return DataList<Student_short>(listOf())
+            return DataListStudentShort(listOf())
         }
         val resList = mutableListOf<Student_short>()
         for(i in 0..< num){
@@ -61,7 +62,7 @@ open class Student_list: IStudent_list {
             }
             resList.addLast(Student_short(stList[startInd+i]))
         }
-        val resDataList = DataList(resList)
+        val resDataList = DataListStudentShort(resList)
         return resDataList
     }
 

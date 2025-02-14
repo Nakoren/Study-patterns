@@ -1,8 +1,8 @@
-package program_classes.Interfaces
+package program_classes.Model.Interfaces
 
-import program_classes.DataList
-import program_classes.Student
-import program_classes.Student_short
+import program_classes.Model.DataList
+import program_classes.Model.Student
+import program_classes.Model.Student_short
 
 interface IStudent_list {
     fun getStudent(id: Int): Student?;

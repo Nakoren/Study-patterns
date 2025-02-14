@@ -1,10 +1,13 @@
-package program_classes
+package program_classes.Model
+
+import program_classes.View.GUI.Interfaces.IViewListener
+import program_classes.View.GUI.StudentApplication
+import program_classes.View.GUI.StudentListController
 
 
 class DataListStudentShort(
     stList: List<Student_short>
-):
-    DataList<Student_short>(data = stList)
+): DataList<Student_short>(data = stList), IViewListener
 {
 
     override fun getData(): DataTable {
@@ -16,6 +19,11 @@ class DataListStudentShort(
                 }
             count++
         }
+
         return DataTable(tableList)
+    }
+
+    override fun notify(view: StudentApplication) {
+        view.displayPanel.updateObsList(getList())
     }
 }

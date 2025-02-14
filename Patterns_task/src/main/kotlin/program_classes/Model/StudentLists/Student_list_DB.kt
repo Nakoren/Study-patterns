@@ -1,9 +1,10 @@
-package program_classes.StudentLists
+package program_classes.Model.StudentLists
 
 import DataBaseClasses.DataBaseConnection
-import program_classes.DataList
-import program_classes.Student
-import program_classes.Student_short
+import program_classes.Model.DataList
+import program_classes.Model.DataListStudentShort
+import program_classes.Model.Student
+import program_classes.Model.Student_short
 import kotlin.collections.HashMap
 
 class Student_list_DB: Student_list() {
@@ -29,7 +30,7 @@ class Student_list_DB: Student_list() {
         return null;
     }
 
-    override fun getKNStudentShortList(n: Int, k: Int): DataList<Student_short> {
+    override fun getKNStudentShortList(n: Int, k: Int): DataListStudentShort {
         val request = "SELECT * FROM Student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
         val result = connection.executeSqlSelect(request);
         if (result != null) {
@@ -47,9 +48,9 @@ class Student_list_DB: Student_list() {
                 resultList.add(Student_short(Student(resultHash)));
             }
             result.close();
-            return DataList<Student_short>(resultList);
+            return DataListStudentShort(resultList);
         };
-        return DataList<Student_short>(mutableListOf());
+        return DataListStudentShort(mutableListOf());
     }
 
     override fun add(st: Student) {

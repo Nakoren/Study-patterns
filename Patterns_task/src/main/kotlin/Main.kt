@@ -1,9 +1,7 @@
 import DataBaseClasses.DataBaseConnection
 import javafx.application.Platform
-import program_classes.ListController
-import program_classes.Student
-import program_classes.StudentLists.*
-import program_classes.GUI.StudentApplication
+import program_classes.View.GUI.StudentApplication
+import program_classes.Model.StudentLists.Student_list_DB
 
 fun main() {
     Platform.startup {

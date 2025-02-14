@@ -1,4 +1,4 @@
-package program_classes
+package program_classes.Model
 
 open class Student_root(
     id: Int,
@@ -30,10 +30,12 @@ open class Student_root(
 
     companion object{
         fun checkPhone(phone: String): Boolean{
+            if(phone == "") return true
             val reg = Regex("\\+?\\d{11}")
             return reg.matches(phone)
         }
         fun checkEmail(email: String): Boolean{
+            if(email == "") return true
             val reg = Regex("[\\w,\\d]+@\\w+\\.\\w+")
             return reg.containsMatchIn(email)
         }

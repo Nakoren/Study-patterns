@@ -1,9 +1,9 @@
-package program_classes.GUI
+package program_classes.View.GUI
 
+import AddScene
 import javafx.beans.value.ChangeListener
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
-import javafx.geometry.HPos
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Scene
@@ -16,29 +16,31 @@ import javafx.scene.layout.*
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.stage.Stage
-import program_classes.DataList
-import program_classes.GUI.ClassViews.StudentShortView
-import program_classes.GUI.LocalElements.TextFieldWithNoOption
-import program_classes.GUI.LocalElements.TextFieldWithOption
-import program_classes.Student
-import program_classes.StudentLists.Student_list
-import program_classes.Student_short
+import program_classes.Model.DataList
+import program_classes.View.GUI.ClassViews.StudentShortView
+import program_classes.View.GUI.LocalElements.TextFieldWithNoOption
+import program_classes.View.GUI.LocalElements.TextFieldWithOption
+import program_classes.Model.Student
+import program_classes.Model.StudentLists.Student_list
+import program_classes.Model.Student_short
+import program_classes.View.GUI.ClassViews.FilterView
 
 class StudentApplication{
 
+    lateinit var dataUpdateDataPanel: UpdateDataPanel
+    lateinit var stListController: StudentListController
+    lateinit var displayPanel: StudentDisplayPanel
+    lateinit var filtrationPanel: FiltrationPanel
+
+    constructor(){
+        stListController = StudentListController(this)
+        dataUpdateDataPanel = UpdateDataPanel(stListController, this)
+        displayPanel = StudentDisplayPanel(dataUpdateDataPanel, stListController)
+        filtrationPanel = FiltrationPanel(displayPanel = displayPanel, stListController)
+        dataUpdateDataPanel.displayPanel = displayPanel
+    }
+
     fun start() {
-        val studentList = Student_list()
-        studentList.add(Student(1, "Name1", "FamName1", "FathName1", phone = "+79181232323", email = null, git = "Git1", telegram = "Tel1"))
-        studentList.add(Student(2, "Name2", "FamName2", "FathName2", phone = "+79181232323", email = null, git = "Git2", telegram = "Tel2"))
-        studentList.add(Student(3, "Name3", "FamName3", "FathName3", phone = "+79181232323", email = null, git = "Git3", telegram = "Tel3"))
-        studentList.add(Student(4, "Name4", "FamName4", "FathName4", phone = "+79181232323", email = null, git = "Git4", telegram = "Tel4"))
-        studentList.add(Student(5, "Name5", "FamName5", "FathName5", phone = "+79181232323", email = null, git = "Git5", telegram = "Tel5"))
-        studentList.add(Student(6, "Name6", "FamName6", "FathName6", phone = "+79181232323", email = null, git = "Git6", telegram = "Tel6"))
-
-        val dataUpdateDataPanel = UpdateDataPanel()
-        val displayPanel = StudentDisplayPanel(studentList, dataUpdateDataPanel)
-        val filtrationPanel = FiltrationPanel(displayPanel = displayPanel)
-
         val stage: Stage = Stage()
 
         stage.title = "Student control app"
@@ -57,7 +59,6 @@ class StudentApplication{
         gridPane.isGridLinesVisible = true
         gridPane.columnConstraints.addAll(area1, area2, area3)
 
-
         gridPane.add(filtrationPanel, 0, 0)
         gridPane.add(displayPanel, 1, 0)
         gridPane.add(dataUpdateDataPanel, 2,0)
@@ -66,19 +67,24 @@ class StudentApplication{
         stage.scene = scene
 
         stage.show()
+
+        stListController.refreshData()
     }
 
     class FiltrationPanel: GridPane
     {
-        val nameArea: GridPane = TextFieldWithNoOption("Name")
-        val gitArea: GridPane = TextFieldWithOption("Git")
-        val mailArea: GridPane = TextFieldWithOption("Mail")
-        val phoneArea: GridPane = TextFieldWithOption("Phone")
-        val telegramArea: GridPane = TextFieldWithOption("Telegram")
+        lateinit var stListController: StudentListController
 
-        var displayPanel: StudentDisplayPanel = StudentDisplayPanel()
+        val nameArea: TextFieldWithNoOption = TextFieldWithNoOption("Name")
+        val gitArea: TextFieldWithOption = TextFieldWithOption("Git")
+        val mailArea: TextFieldWithOption = TextFieldWithOption("Mail")
+        val phoneArea: TextFieldWithOption = TextFieldWithOption("Phone")
+        val telegramArea: TextFieldWithOption = TextFieldWithOption("Telegram")
 
-        constructor(displayPanel: StudentDisplayPanel): super(){
+        lateinit var displayPanel: StudentDisplayPanel
+
+        constructor(displayPanel: StudentDisplayPanel, controller: StudentListController): super(){
+            stListController = controller
             this.displayPanel = displayPanel
             maxWidth = Double.MAX_VALUE
             alignment = Pos.TOP_LEFT
@@ -100,34 +106,35 @@ class StudentApplication{
             val filterButton = javafx.scene.control.Button("Filter")
             filterButton.maxWidth = Double.MAX_VALUE
             filterButton.font = Font(25.0)
+            filterButton.setOnAction {
+                controller.refreshData()
+            }
             add(filterButton, 0 , 6)
         }
     }
 
     class StudentDisplayPanel(): VBox() {
-        var stList: Student_list = Student_list()
-        var currentPage: Int = 0
+        lateinit var stListController: StudentListController
         var table: TableView<StudentShortView> = TableView()
-        var totalCount: Int = 0
-        var pageLabel: Label = Label((currentPage + 1).toString())
+        var selectedStudent: Student_short? = null
+
+        lateinit var pageLabel: Label
         val leftButton: Button = Button("<")
         val rightButton: Button = Button(">")
 
+        lateinit var stList: List<Student_short>
         var observableList: ObservableList<StudentShortView> = FXCollections.observableArrayList()
 
-        val entriesPerPage = 5
+        lateinit var updateDataPanel: UpdateDataPanel
 
-        var updateDataPanel: UpdateDataPanel = UpdateDataPanel()
-
-        constructor(stList: Student_list, updatePanel: UpdateDataPanel):this(){
-
+        constructor(updatePanel: UpdateDataPanel, controller: StudentListController):this(){
+            stListController = controller
             updateDataPanel = updatePanel
-            this.stList = stList
             maxWidth = Double.POSITIVE_INFINITY
             alignment = Pos.CENTER
-            totalCount = this.stList.getStudentShortCount().floorDiv(entriesPerPage) + 1
+            pageLabel = Label((stListController.currentPage + 1).toString())
 
-            if(currentPage == totalCount-1){
+            if(stListController.currentPage == stListController.totalCount-1){
                 rightButton.isDisable = true
             }
 
@@ -157,22 +164,13 @@ class StudentApplication{
 
             children.add(bottomList)
 
-            var totalPageCountLabel: Label = Label((totalCount).toString())
+            var totalPageCountLabel: Label = Label((stListController.totalCount).toString())
             totalPageCountLabel.alignment = Pos.CENTER
 
             children.add(totalPageCountLabel)
         }
 
         private fun formTable() {
-
-            val pageDataList: DataList<Student_short> = this.stList.getKNStudentShortList(entriesPerPage, currentPage*entriesPerPage)
-            val pageList: List<Student_short> = pageDataList.getList()
-            val pageListView: MutableList<StudentShortView> = mutableListOf<StudentShortView>()
-            for (st in pageList){
-                pageListView.add(StudentShortView(st))
-            }
-            observableList = FXCollections.observableArrayList(pageListView)
-
             table = TableView<StudentShortView>(observableList)
 
             val idColumn: TableColumn<StudentShortView, Int> = TableColumn<StudentShortView, Int>("ID")
@@ -201,38 +199,44 @@ class StudentApplication{
                         updateDataPanel.enableChange()
                         updateDataPanel.enableDelete()
                     }
+                    selectedStudent = Student_short(studentShortNew)
                 }
             })
         }
 
-        private fun updateTable(){
-            val pageDataList: DataList<Student_short> = this.stList.getKNStudentShortList(entriesPerPage, currentPage*entriesPerPage)
-            val pageList: List<Student_short> = pageDataList.getList()
+        fun updateObsList(list: List<Student_short>){
             val pageListView: MutableList<StudentShortView> = mutableListOf<StudentShortView>()
 
-            for (st in pageList){
+            for (st in list){
                 pageListView.add(StudentShortView(st))
             }
-
             observableList = FXCollections.observableArrayList(pageListView)
             table.items = observableList
 
-
+            if(stListController.currentPage == stListController.totalCount-1){
+                rightButton.isDisable = true
+            }
         }
 
-        private fun goToNextPage(){
-            currentPage+=1
-            pageLabel.text = (currentPage+1).toString()
-            if(currentPage == totalCount-1){
+        fun updateTable(){
+            observableList = stListController.getObservableList()!!
+            table.items = observableList
+        }
+
+        fun goToNextPage(){
+            stListController.currentPage+=1
+            pageLabel.text = (stListController.currentPage+1).toString()
+            if(stListController.currentPage == stListController.totalCount-1){
                 rightButton.isDisable = true
             }
             leftButton.isDisable = false
             updateTable()
         }
-        private fun goToPrevPage(){
-            currentPage-=1
-            pageLabel.text = (currentPage+1).toString()
-            if(currentPage == 0){
+
+        fun goToPrevPage(){
+            stListController.currentPage-=1
+            pageLabel.text = (stListController.currentPage+1).toString()
+            if(stListController.currentPage == 0){
                 leftButton.isDisable = true
             }
             rightButton.isDisable = false
@@ -241,13 +245,19 @@ class StudentApplication{
     }
 
     class UpdateDataPanel: GridPane {
+        lateinit var stListController: StudentListController
+
+        lateinit var displayPanel: StudentDisplayPanel
+
+        var addScene: AddScene? = null
 
         val addButton = Button("Add")
         val changeButton = Button("Change")
         val deleteButton = Button("Delete")
         val updateButton = Button("Update")
 
-        constructor(): super(){
+        constructor(controller: StudentListController, view: StudentApplication): super(){
+            stListController = controller
             maxWidth = Double.MAX_VALUE
             alignment = Pos.CENTER
             hgap = 5.0
@@ -261,6 +271,20 @@ class StudentApplication{
             changeButton.font = Font(30.0); changeButton.padding = Insets(25.0)
             deleteButton.font = Font(30.0); deleteButton.padding = Insets(25.0)
             updateButton.font = Font(30.0); updateButton.padding = Insets(25.0)
+
+            addButton.setOnAction {
+                addScene = AddScene(view, controller)
+                addScene!!.start()
+            }
+            changeButton.setOnAction {
+                val selectedStudent = displayPanel.selectedStudent
+                addScene = AddScene(view, controller, selectedStudent!!)
+                addScene!!.start()
+            }
+            deleteButton.setOnAction {
+                val selectedStudent = displayPanel.selectedStudent
+                stListController.stList.delete(selectedStudent!!.id)
+            }
 
             add(addButton, 0, 0)
             add(updateButton, 0, 1)
@@ -278,9 +302,11 @@ class StudentApplication{
         fun disableChange(){
             changeButton.isDisable = true
         }
+
         fun enableDelete(){
             deleteButton.isDisable = false
         }
+
         fun disableDelete(){
             deleteButton.isDisable = true
         }
