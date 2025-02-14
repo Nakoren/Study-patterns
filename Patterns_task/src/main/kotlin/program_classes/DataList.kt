@@ -1,9 +1,8 @@
 package program_classes
 
 open class DataList<T: Any>(
-    data: List<T>
+    internal val data: List<T>
 ) {
-    internal val data: List<T> = data
 
     private var selected: MutableList<Int> = mutableListOf<Int>()
 
@@ -24,8 +23,10 @@ open class DataList<T: Any>(
         }
         return resList
     }
-
     open fun getData(): DataTable{
         return DataTable(mutableListOf<List<Any>>())
+    }
+    open fun getList(): List<T>{
+        return data
     }
 }

@@ -1,9 +1,18 @@
 import DataBaseClasses.DataBaseConnection
+import javafx.application.Platform
 import program_classes.ListController
 import program_classes.Student
 import program_classes.StudentLists.*
+import program_classes.GUI.StudentApplication
 
 fun main() {
+    Platform.startup {
+        val App = StudentApplication()
+        App.start()
+    }
+
+
+    /*
     var Student1 = Student( 1, "name1", "fam1", "fname1", null, "mail1", "git1", "tel1")
     println(Student1.toString())
     var Student2 = Student(id = 2, name = "name2", fam_name = "fam2", father_name = "fname2")
@@ -13,7 +22,7 @@ fun main() {
 
     var stListController = ListController("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\Input.txt")
 
-    /*
+
     stListController.read()
 
     stListController.stList.writeToFile("C:\\Users\\minen\\Desktop\\Study-patterns\\Patterns_task\\src\\main\\kotlin\\", "output.txt")

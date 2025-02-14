@@ -56,7 +56,10 @@ open class Student_list: IStudent_list {
         }
         val resList = mutableListOf<Student_short>()
         for(i in 0..< num){
-            resList.addLast(Student_short(stList[startInd+num]))
+            if(startInd + i >=stList.size){
+                break
+            }
+            resList.addLast(Student_short(stList[startInd+i]))
         }
         val resDataList = DataList(resList)
         return resDataList
