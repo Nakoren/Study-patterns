@@ -1,16 +1,18 @@
 package program_classes.Model
 
 
+import program_classes.Controller.Filters.BasicFilterData
+import program_classes.Controller.Filters.IFilter
 import java.io.File
 import java.io.FileNotFoundException
 
 
 class Student(
-    id: Int,
+    ID: Int,
     name: String,
     fam_name: String,
-    father_name: String,
-    ): Student_root(git = null, id = id)
+    father_name: String?,
+    ): Student_root(git = null, id = ID)
 {
     var name: String = name
         set(value) {
@@ -20,14 +22,21 @@ class Student(
         set(value) {
             field = value
         }
-    var father_name: String = father_name
+    var father_name: String? = if (father_name == "") null else father_name
         set(value) {
-            field = value
+            if (checkString(value!!)){
+                if(value != "") field = value
+                else field = null
+            }
+            else{
+                field = null
+            }
         }
     var phone: String? = null
         set(value) {
             if (checkPhone(value!!)){
-                field = value
+                if(value != "") field = value
+                else field = null
             }
             else{
                 field = null
@@ -36,7 +45,8 @@ class Student(
     var email: String?  = null
         set(value) {
             if (checkEmail(value!!)){
-                field = value
+                if(value != "") field = value
+                else field = null
             }
             else{
                 field = null
@@ -45,7 +55,8 @@ class Student(
     var telegram: String?  = null
         set(value) {
             if (checkString(value!!)){
-                field = value
+                if(value != "") field = value
+                else field = null
             }
             else{
                 field = null
@@ -83,7 +94,13 @@ class Student(
     }
 
     override fun toString(): String {
-        var str = "$id $name $fam_name $father_name"
+        var str = "$id $name $fam_name"
+        if(father_name == null){
+            str += "___"
+        }
+        else{
+            str+= " $father_name"
+        }
         if (telegram == null){
             str+=" ___"
         }
@@ -125,7 +142,6 @@ class Student(
         return (git != null)&&(git != "")
     }
 
-
     fun setContacts(email: String?, telegram: String?,phone: String?){
         this.email = email
         this.telegram = telegram
@@ -145,19 +161,23 @@ class Student(
     }
 
     fun getShortNameString():String{
-        return fam_name+name[0].uppercaseChar()+father_name[0].uppercaseChar()
+        var resStr = "$fam_name ${name[0].uppercaseChar()}."
+        if(father_name!=null){
+            resStr+="${father_name!![0].uppercaseChar()}. "
+        }
+        return resStr
     }
     fun getContactString():String {
-        if (email != null) {
+        if (email != null && email != "") {
             return "$email-email"
         }
-        if (telegram != null) {
+        if (telegram != null && telegram != "") {
             return "$telegram-telegram"
         }
-        if (phone!=null){
+        if (phone!=null && phone != ""){
             return "$phone-phone"
         }
-        return "noContact"
+        return "No contact"
     }
     fun getGitString():String{
         if(git!=null){
@@ -173,7 +193,79 @@ class Student(
         return "$nameData $gitData $contactData";
     }
 
-    constructor(id: Int, name:String, famName: String, fatherName: String, phone:String?, email:String?, git:String?, telegram: String?):this(id = id, name=name,fam_name=famName,father_name=fatherName){
+    fun checkFilterCorrespondence(filter: BasicFilterData): Boolean{
+
+        if(filter.nameFilter != "") {
+            val nameSplit = filter.nameFilter.split(" ")
+            if(nameSplit.size >= 1){
+                val reg = Regex(nameSplit[0])
+                if (!reg.containsMatchIn(fam_name)){
+                    return false
+                }
+            }
+            if(nameSplit.size >= 2){
+                val reg = Regex(nameSplit[1])
+                if (!reg.containsMatchIn(name)){
+                    return false
+                }
+            }
+            if(nameSplit.size >= 3){
+                val reg = Regex(nameSplit[2])
+                if(father_name == null) return false
+                if (!reg.containsMatchIn(father_name!!)){
+                    return false
+                }
+            }
+        }
+
+        if(filter.gitReq == 1){
+            if(git == null) return false
+            if(filter.gitFilter!=""){
+                val regex = Regex(filter.gitFilter)
+                if(!regex.containsMatchIn(git!!)) return false
+            }
+        }
+        if(filter.gitReq == -1){
+            return (git == null)
+        }
+
+        if(filter.mailReq == 1){
+            if(email == null) return false
+            if(filter.mailFilter!=""){
+                val regex = Regex(filter.mailFilter)
+                if(!regex.containsMatchIn(email!!)) return false
+            }
+        }
+        if(filter.mailReq == -1){
+            return (email == null)
+        }
+
+        if(filter.phoneReq == 1){
+            if(phone == null) return false
+            if(filter.phoneFilter!=""){
+                val regex = Regex(filter.phoneFilter)
+                if(!regex.containsMatchIn(phone!!)) return false
+            }
+        }
+        if(filter.phoneReq == -1){
+            return (phone == null)
+        }
+
+        if(filter.telReq == 1){
+            if(telegram == null) return false
+            if(filter.telFilter!=""){
+                val regex = Regex(filter.telFilter)
+                if(!regex.containsMatchIn(telegram!!)) return false
+            }
+        }
+        if(filter.telReq == -1){
+            return (telegram == null)
+        }
+
+        return true
+    }
+
+    constructor(id: Int, name:String, famName: String, fatherName: String, phone:String?, email:String?, git:String?, telegram: String?):this(ID = id, name=name,fam_name=famName,father_name=fatherName){
         if(phone!=null){
             this.phone = phone
         }
@@ -187,7 +279,7 @@ class Student(
             this.telegram = telegram
         }
     }
-    constructor(map: HashMap<String, String?>): this(id = map["id"]!!.toInt(),name=map["name"] as String,fam_name=map["fam_name"] as String,father_name=map["father_name"] as String) {
+    constructor(map: HashMap<String, String?>): this(ID = map["ID"]!!.toInt(),name=map["name"] as String,fam_name=map["fam_name"] as String,father_name=map["father_name"] as String?) {
         if(map["phone"]!=null){
             phone = map["phone"]
         }
@@ -201,7 +293,7 @@ class Student(
             telegram = map["telegram"]
         }
     }
-    constructor(longString: String):this(id = longString.split(" ")[0].toInt(),name = longString.split(" ")[1], fam_name = longString.split(" ")[2],father_name = longString.split(" ")[3]){
+    constructor(longString: String):this(ID = longString.split(" ")[0].toInt(),name = longString.split(" ")[1], fam_name = longString.split(" ")[2],father_name = longString.split(" ")[3]){
         val parsedString = longString.split(" ")
         if(parsedString[4]!="___"){
             telegram = parsedString[4]

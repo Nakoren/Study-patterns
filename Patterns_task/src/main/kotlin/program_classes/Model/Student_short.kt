@@ -8,7 +8,7 @@ class Student_short(
     shortName : String,
     contact: String?,
     git: String?
-) : Student_root(git = null, id = id)
+) : Student_root(git = git, id = id)
 {
     var shortName: String = shortName
         set(value) {
@@ -28,7 +28,7 @@ class Student_short(
     constructor(sourceSt: Student) : this(
         id = sourceSt.id,
         shortName = sourceSt.getShortNameString(),
-        git = sourceSt.getGitString(),
+        git = sourceSt.git,
         contact = sourceSt.getContactString()
     )
 

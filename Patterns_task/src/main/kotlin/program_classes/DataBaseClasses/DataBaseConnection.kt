@@ -20,8 +20,8 @@ class DataBaseConnection private constructor() {
     }
 
     fun createConnection(){
-        val url = "jdbc:postgresql://localhost:1434/StudentDataBase"
-        val user = "StudentProgram"
+        val url = "jdbc:postgresql://localhost:5432/StudentDataBase"
+        val user = "Program"
         val password = "ready"
         conn = null
         try {
@@ -46,6 +46,7 @@ class DataBaseConnection private constructor() {
         }
         return null;
     }
+
     fun executeSql(query:String){
         try {
             val conn = getConnection()

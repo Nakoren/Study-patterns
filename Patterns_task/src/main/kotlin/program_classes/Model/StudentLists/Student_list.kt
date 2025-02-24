@@ -1,6 +1,6 @@
 package program_classes.Model.StudentLists
 
-import program_classes.Model.DataList
+import program_classes.Controller.Filters.FilterDataExtendedDecorator
 import program_classes.Model.DataListStudentShort
 import program_classes.Model.Interfaces.IStudent_list
 import program_classes.Model.Student
@@ -11,14 +11,15 @@ import java.io.FileNotFoundException
 open class Student_list: IStudent_list {
 
     internal var stList: MutableList<Student> = mutableListOf()
+    open val path = "C:\\Users\\minen\\Desktop\\Unik\\курс 4 - сем 1\\Паттерны\\Patterns_task\\Patterns_task\\src\\main\\kotlin"
+    open val fileName = "Student.txt"
 
-    open fun readFromFile(address: String){
-        val inputStream: File = File(address)
+    open fun readFromFile(path: String, fileName: String){
+        val inputStream: File = File(path+ "\\" + fileName)
 
         if(!inputStream.exists()){
             throw FileNotFoundException("File not found")
         }
-
         val resList = mutableListOf<Student>()
         inputStream.forEachLine {
             if(it!="")
@@ -32,6 +33,7 @@ open class Student_list: IStudent_list {
         val outputFile: File = File(path+"\\"+fileName)
         val writer = outputFile.printWriter()
         var resStr: String = ""
+        stList.sortByDescending { it.id }
         for (st in stList){
             resStr+=st.toString()+"\n"
         }
@@ -51,7 +53,8 @@ open class Student_list: IStudent_list {
         return restSt
     }
 
-    override open fun getKNStudentShortList(num:Int, startInd:Int): DataListStudentShort {
+    override fun getKNStudentShortList(num:Int, startInd:Int, filter: FilterDataExtendedDecorator): DataListStudentShort {
+        readFromFile(path, fileName)
         if(startInd<0){
             return DataListStudentShort(listOf())
         }
@@ -60,17 +63,19 @@ open class Student_list: IStudent_list {
             if(startInd + i >=stList.size){
                 break
             }
-            resList.addLast(Student_short(stList[startInd+i]))
+            if(stList[i].checkFilterCorrespondence(filter)){
+                resList.addLast(Student_short(stList[startInd+i]))
+            }
         }
         val resDataList = DataListStudentShort(resList)
         return resDataList
     }
 
     fun sort(){
-        stList.sortBy{"${it.fam_name[0]}${it.name[0]}${it.father_name[0]}"}
+        stList.sortBy{"${it.fam_name[0]}${it.name[0]}"}
     }
 
-    fun checkIdExistence(id:Int):Boolean{
+    open fun checkIdExistence(id:Int):Boolean{
         for(stud in stList){
             if(stud.id == id) return true
         }
@@ -82,20 +87,21 @@ open class Student_list: IStudent_list {
         while (checkIdExistence(tempId)) tempId++
         st.id = tempId
         stList.addLast(st)
+        writeToFile(path,fileName)
     }
 
-    override fun replace(st: Student, id: Int): Boolean{
+    override fun replace(st: Student, id: Int){
         if(checkIdExistence(id)){
             stList[id] = st
-            return true
         }
-        return false
+        writeToFile(path,fileName)
     }
 
     override fun delete(id: Int){
-        if(checkIdExistence(id)){
-            stList.removeAt(id)
+        for(stud in stList){
+            if(stud.id == id) stList.remove(stud)
         }
+        writeToFile(path,fileName)
     }
 
     override fun getStudentShortCount():Int{
@@ -116,7 +122,6 @@ open class Student_list: IStudent_list {
 
     open fun createMap(el: Any): HashMap<String, String?> {
         val map = HashMap<String, String?>()
-
         return map
     }
 }

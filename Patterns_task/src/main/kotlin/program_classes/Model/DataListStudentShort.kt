@@ -1,14 +1,13 @@
 package program_classes.Model
 
-import program_classes.View.GUI.Interfaces.IViewListener
 import program_classes.View.GUI.StudentApplication
-import program_classes.View.GUI.StudentListController
 
 
 class DataListStudentShort(
     stList: List<Student_short>
-): DataList<Student_short>(data = stList), IViewListener
+): DataList<Student_short>(data = stList)
 {
+    var updateListener: IListUpdateListener<Student_short>? = null
 
     override fun getData(): DataTable {
         var tableList = mutableListOf<List<Any?>>()
@@ -23,7 +22,9 @@ class DataListStudentShort(
         return DataTable(tableList)
     }
 
-    override fun notify(view: StudentApplication) {
-        view.displayPanel.updateObsList(getList())
+    fun notify(view: StudentApplication) {
+        if(updateListener != null){
+            updateListener!!.notifyListUpdate(getList())
+        }
     }
 }

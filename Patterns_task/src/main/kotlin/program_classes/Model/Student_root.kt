@@ -11,7 +11,7 @@ open class Student_root(
         get(){
             return field
         }
-    var git: String?  = null
+    var git: String?  = git
         set(value) {
             if (checkString(value!!)){
                 field = value

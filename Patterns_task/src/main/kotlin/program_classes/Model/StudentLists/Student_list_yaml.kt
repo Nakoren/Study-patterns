@@ -12,8 +12,11 @@ import java.io.FileNotFoundException
 
 class Student_list_yaml: Student_list(){
 
-    override fun readFromFile(address: String){
-        val inputStream: File = File(address)
+    override val path = "C:\\Users\\minen\\Desktop\\Unik\\курс 4 - сем 1\\Паттерны\\Patterns_task\\Patterns_task\\src\\main\\kotlin"
+    override val fileName = "Student.yaml"
+
+    override fun readFromFile(path: String, fileName: String){
+        val inputStream: File = File(path + "\\" + fileName)
 
         if(!inputStream.exists()){
             throw FileNotFoundException("File not found")
@@ -28,12 +31,11 @@ class Student_list_yaml: Student_list(){
 
     override fun writeToFile(path: String, fileName: String){
         val outputFile: File = File(path+"\\"+fileName)
+        stList.sortByDescending { it.id }
         val writer = outputFile.printWriter()
-
         val res = Yaml.default.encodeToString(ListSerializer(MapSerializer(String.serializer(),
             NumberOrStringSerializer
         )),stList.map { convertMap(it.getHashMap()) })
-
 
         writer.use{
                 out -> out.println(res)

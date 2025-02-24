@@ -1,35 +1,39 @@
-package program_classes.View.GUI
+package program_classes.Controller
 
-import javafx.application.Application
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
+import program_classes.Controller.Filters.BasicFilterData
+import program_classes.Controller.Filters.FilterDataExtendedDecorator
 import program_classes.Model.DataList
 import program_classes.Model.DataListStudentShort
 import program_classes.Model.Student
 import program_classes.Model.StudentLists.Student_list
 import program_classes.Model.Student_short
 import program_classes.View.GUI.ClassViews.StudentShortView
+import program_classes.View.GUI.StudentApplication
 
 class StudentListController{
     var totalCount: Int = 0
-    var entriesPerPage = 5
+    var entriesPerPage = 10
     var currentPage = 0
 
-    var nameFilter: String = ""
-    var gitFilter: String = ""
-    var mailFilter: String = ""
-    var phoneFilter: String = ""
-    var telegramFilter: String = ""
-    var gitReq: Int = 0
-    var mailReq: Int = 0
-    var phoneReq: Int = 0
-    var telReq: Int = 0
+    lateinit var filter: FilterDataExtendedDecorator
 
     var stList: Student_list = Student_list()
     lateinit var view: StudentApplication
 
     fun getKNStudentShortList(n: Int, k: Int): DataList<Student_short> {
-        return stList.getKNStudentShortList(n, k)
+        return stList.getKNStudentShortList(n, k, extractFilter())
+    }
+
+    fun delete(id: Int){
+        stList.delete(id)
+        refreshData()
+    }
+
+    fun update(student: Student){
+        stList.replace(student, student.id)
+        refreshData()
     }
 
     fun getObservableList(): ObservableList<StudentShortView>? {
@@ -43,27 +47,38 @@ class StudentListController{
         return FXCollections.observableArrayList(pageListView)
     }
 
+    fun getStudentById(id:Int): Student? {
+        return stList.getStudent(id)
+    }
+
     fun refreshData(){
-        getFilter()
-        var data: DataListStudentShort = stList.getKNStudentShortList(entriesPerPage, currentPage*entriesPerPage)
+        filter = extractFilter()
+        var data: DataListStudentShort = stList.getKNStudentShortList(entriesPerPage, currentPage*entriesPerPage, filter)
+        currentPage = 0
         totalCount = this.stList.getStudentShortCount().floorDiv(entriesPerPage) + 1
+        data.updateListener = view
         data.notify(view)
     }
 
-    fun getFilter(){
-        nameFilter= view.filtrationPanel.nameArea.getValue()
-        gitFilter = view.filtrationPanel.gitArea.getValue()
-        mailFilter = view.filtrationPanel.mailArea.getValue()
-        phoneFilter = view.filtrationPanel.phoneArea.getValue()
-        telegramFilter = view.filtrationPanel.telegramArea.getValue()
-        gitReq = view.filtrationPanel.gitArea.getChoiceValue()
-        mailReq = view.filtrationPanel.gitArea.getChoiceValue()
-        phoneReq = view.filtrationPanel.gitArea.getChoiceValue()
-        telReq = view.filtrationPanel.gitArea.getChoiceValue()
+    fun extractFilter(): FilterDataExtendedDecorator {
+        val nameFilter= view.filtrationPanel.nameArea.getValue()
+        val gitFilter = view.filtrationPanel.gitArea.getValue()
+        val mailFilter = view.filtrationPanel.mailArea.getValue()
+        val phoneFilter = view.filtrationPanel.phoneArea.getValue()
+        val telegramFilter = view.filtrationPanel.telegramArea.getValue()
+        val gitReq = view.filtrationPanel.gitArea.getChoiceValue()
+        val mailReq = view.filtrationPanel.mailArea.getChoiceValue()
+        val phoneReq = view.filtrationPanel.phoneArea.getChoiceValue()
+        val telReq = view.filtrationPanel.telegramArea.getChoiceValue()
+        val basicFilterData = BasicFilterData(nameFilter, gitFilter, mailFilter, phoneFilter, telegramFilter, gitReq, mailReq, phoneReq, telReq)
+        val extendedFilter = FilterDataExtendedDecorator()
+        extendedFilter.setBaseFilter(basicFilterData)
+        return extendedFilter
     }
 
-    constructor(refView: StudentApplication){
-        testInit()
+    constructor(refView: StudentApplication, studentList: Student_list){
+        //testInit()
+        stList = studentList
         totalCount = this.stList.getStudentShortCount().floorDiv(entriesPerPage) + 1
         this.view = refView
     }

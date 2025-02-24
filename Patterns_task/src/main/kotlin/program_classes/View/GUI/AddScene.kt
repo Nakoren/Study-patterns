@@ -9,10 +9,9 @@ import program_classes.Controller.AddController
 import program_classes.Controller.ChangeController
 import program_classes.Controller.IController
 import program_classes.Model.Student
-import program_classes.Model.Student_root
 import program_classes.Model.Student_short
 import program_classes.View.GUI.StudentApplication
-import program_classes.View.GUI.StudentListController
+import program_classes.Controller.StudentListController
 
 class AddScene(
     var mainView: StudentApplication,
@@ -33,8 +32,6 @@ class AddScene(
 
     val fields = listOf(nameField, famNameField, fathNameField, githubField, phoneField, telegramField, emailField)
 
-    var studentToUpdate: Student_short? = null
-
     fun start(){
         title = "Add student"
 
@@ -43,15 +40,23 @@ class AddScene(
         grid.hgap = 10.0
         grid.vgap = 10.0
 
-        val nameLabel = Label("First Name:")
+        if(stageController is ChangeController){
+            val chController = stageController as ChangeController
+            val extractedStudent = chController.getStudentData()
+            nameField.text = extractedStudent.name
+            famNameField.text = extractedStudent.fam_name
+            fathNameField.text = extractedStudent.father_name
+        }
+
+        val nameLabel = Label("Name:")
         grid.add(nameLabel, 0, 0)
         grid.add(nameField, 1, 0)
 
-        val famNameLabel = Label("Middle Name:")
+        val famNameLabel = Label("Family name:")
         grid.add(famNameLabel, 0, 1)
         grid.add(famNameField, 1, 1)
 
-        val fathNameLabel = Label("Last Name:")
+        val fathNameLabel = Label("Father's name:")
         grid.add(fathNameLabel, 0, 2)
         grid.add(fathNameField, 1, 2)
 
@@ -82,7 +87,6 @@ class AddScene(
         fields.forEach { field -> field.textProperty().addListener { _, _, _ -> validateFields() } }
         sceneNode = Scene(grid, 300.0, 300.0)
         scene = sceneNode
-
         show()
     }
 
@@ -90,20 +94,12 @@ class AddScene(
         stageController.validate()
     }
 
-    constructor(view: StudentApplication,controller: StudentListController , stud: Student_short): this(view, controller){
-        studentToUpdate = stud
-        stageController = ChangeController(this, controller)
+    constructor(view: StudentApplication, controller: StudentListController, stud: Student_short): this(view, controller){
+        stageController = ChangeController(this, controller, stud)
     }
 
     fun onButtonClick(){
-        if(studentToUpdate!=null){
-            val newStudent = Student(studentToUpdate!!.id, nameField.text, famNameField.text, fathNameField.text, phoneField.text, emailField.text, githubField.text, telegramField.text)
-            var stageController: IController = ChangeController(this, controller)
-        }
-        else{
-            val newStudent = Student(0, nameField.text, famNameField.text, fathNameField.text, phoneField.text, emailField.text, githubField.text, telegramField.text)
-            controller.stList.add(newStudent)
-        }
+        stageController.executeAction()
         close()
     }
 }

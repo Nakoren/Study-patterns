@@ -1,8 +1,9 @@
 package program_classes.Controller
 
 import AddScene
+import program_classes.Model.Student
 import program_classes.Model.Student_root
-import program_classes.View.GUI.StudentListController
+import program_classes.Model.Student_short
 
 class AddController(
     scene: AddScene,
@@ -10,6 +11,12 @@ class AddController(
 ): IController {
     override var addScene: AddScene = scene
     override var studentController: StudentListController = stCont
+
+    override fun executeAction() {
+        val newStudent = Student(0, addScene.nameField.text, addScene.famNameField.text, addScene.fathNameField.text, addScene.phoneField.text, addScene.emailField.text, addScene.githubField.text, addScene.telegramField.text)
+        studentController.stList.add(newStudent)
+        studentController.refreshData()
+    }
 
     override fun initScene() {
 

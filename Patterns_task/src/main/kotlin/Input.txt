@@ -1,3 +1,0 @@
-1 name1 fam1 fname1 tel1 ___ ___ git1
-2 name2 fam2 fname2 ___ ___ ___ ___
-3 name3 fam3 fname3 ___ ___ ___ ___

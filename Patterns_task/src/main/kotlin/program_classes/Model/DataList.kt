@@ -1,6 +1,5 @@
 package program_classes.Model
 
-import program_classes.View.GUI.Interfaces.IViewListener
 import program_classes.View.GUI.StudentApplication
 
 open class DataList<T: Any>(

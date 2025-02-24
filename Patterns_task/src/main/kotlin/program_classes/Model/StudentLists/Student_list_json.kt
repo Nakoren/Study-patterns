@@ -16,13 +16,14 @@ import kotlinx.serialization.json.jsonObject
 
 class Student_list_json: Student_list(){
 
-    override fun readFromFile(address: String){
-        val inputStream: File = File(address)
+    override val path = "C:\\Users\\minen\\Desktop\\Unik\\курс 4 - сем 1\\Паттерны\\Patterns_task\\Patterns_task\\src\\main\\kotlin"
+    override val fileName = "Student.json"
 
+    override fun readFromFile(path: String, fileName: String){
+        val inputStream: File = File(path + "\\" + fileName)
         if(!inputStream.exists()){
             throw FileNotFoundException("File not found")
         }
-
         val inputStr = inputStream.readText()
 
         stList.clear()
@@ -33,8 +34,8 @@ class Student_list_json: Student_list(){
 
     override fun writeToFile(path: String, fileName: String){
         val outputFile: File = File(path+"\\"+fileName)
+        stList.sortByDescending { it.id }
         val writer = outputFile.printWriter()
-
         val jsonFormat = Json { prettyPrint = true }
         val res = jsonFormat.encodeToString(
             ListSerializer(MapSerializer(String.serializer(), NumberOrStringSerializer)),

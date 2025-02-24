@@ -1,7 +1,7 @@
 package program_classes.Model.StudentLists
 
 import DataBaseClasses.DataBaseConnection
-import program_classes.Model.DataList
+import program_classes.Controller.Filters.FilterDataExtendedDecorator
 import program_classes.Model.DataListStudentShort
 import program_classes.Model.Student
 import program_classes.Model.Student_short
@@ -11,8 +11,8 @@ class Student_list_DB: Student_list() {
 
     private val connection: DataBaseConnection = DataBaseConnection.getConnection()
 
-    fun getStudentById(id: Int): Student? {
-        val request = "SELECT * FROM Student as t where t.id=${id}"
+    override fun getStudent(id: Int): Student? {
+        val request = "SELECT * FROM public.\"Student\" where \"ID\"=${id}"
         val result = connection.executeSqlSelect(request)
         if (result != null && result.next()) {
             val resultHash:HashMap<String,String?> = hashMapOf<String,String?>()
@@ -30,8 +30,8 @@ class Student_list_DB: Student_list() {
         return null;
     }
 
-    override fun getKNStudentShortList(n: Int, k: Int): DataListStudentShort {
-        val request = "SELECT * FROM Student as t ORDER BY t.id OFFSET ${(n-1)*k} ROWS LIMIT ${k}"
+    override fun getKNStudentShortList(num: Int, startInd: Int,filter: FilterDataExtendedDecorator): DataListStudentShort {
+        var request = "SELECT * FROM public.\"Student\" ${filter.getWhereSequence()} ORDER BY \"ID\" OFFSET ${(num)*startInd} ROWS LIMIT ${num}"
         val result = connection.executeSqlSelect(request);
         if (result != null) {
             val resultList:MutableList<Student_short> = mutableListOf()
@@ -45,7 +45,9 @@ class Student_list_DB: Student_list() {
                 resultHash.set("email",result.getString("email"))
                 resultHash.set("git",result.getString("git"))
                 resultHash.set("telegram",result.getString("telegram"))
-                resultList.add(Student_short(Student(resultHash)));
+                val addStud = Student(resultHash)
+                val addStudShort = Student_short(addStud)
+                resultList.add(addStudShort);
             }
             result.close();
             return DataListStudentShort(resultList);
@@ -55,18 +57,41 @@ class Student_list_DB: Student_list() {
 
     override fun add(st: Student) {
         val studentProps = st.getHashMap()
-        var columns = "";
-        var values = "";
+        var id = 0
+        while(checkIdExistence(id)) id++
+        studentProps["id"] = id.toString()
+        var columns = "\"ID\",";
+        var values = "$id,";
         for(key in studentProps.keys){
-            if(studentProps[key] !=null && key!="id"){
+            if(studentProps[key] !=null && studentProps[key] != "" && key!="id"){
                 columns+="${key},"
                 values+="'${studentProps[key]}',"
             }
         }
         columns=columns.dropLast(1)
         values=values.dropLast(1)
-        val request = "insert into Student(${columns}) values (${values})"
+        val request = "insert into public.\"Student\"(${columns}) values (${values})"
         connection.executeSql(request);
+    }
+
+    override fun replace(st: Student, id: Int) {
+        val studentProps = st.getHashMap()
+        var updateSequence = "";
+        for(key in studentProps.keys){
+            if(studentProps[key] != "" && key!="id"){
+                if(studentProps[key] != null ){
+                    updateSequence += "$key = '${studentProps[key]}',"
+                }
+                else{
+                    updateSequence += "$key = NULL,"
+                }
+            }
+        }
+        updateSequence = updateSequence.dropLast(1)
+        var request = "Update public.\"Student\" set "
+        request += updateSequence
+        request += " where \"ID\" = $id"
+        connection.executeSql(request)
     }
 
     fun updateStudent(id:Int,student: Student) {
@@ -78,17 +103,17 @@ class Student_list_DB: Student_list() {
             }
         }
         values=values.dropLast(1)
-        val request = "update Student t set ${values} where t.id=${id}"
+        val request = "update public.\"Student\" set ${values} where \"ID\"=${id}"
         connection.executeSql(request);
     }
 
-    fun deleteStudent(id: Int) {
-        val request = "delete from Student as t where t.id=${id}"
+    override fun delete(id: Int) {
+        val request = "delete from public.\"Student\" where \"ID\"=${id}"
         connection.executeSql(request);
     }
     //
     fun getCount(): Int {
-        val request = "SELECT count(*) as c FROM Student"
+        val request = "SELECT count(*) FROM public.\"Student\""
         val result = connection.executeSqlSelect(request);
         if (result != null && result.next()) {
             val count = result.getInt("c");
@@ -96,5 +121,15 @@ class Student_list_DB: Student_list() {
             return count;
         };
         return 0;
+    }
+    override fun checkIdExistence(id: Int): Boolean {
+        val request = "select \"ID\" from public.\"Student\" \"ID\" where \"ID\" = ${id}"
+        val result = connection.executeSqlSelect(request);
+        if(result?.next() == true){
+            return true
+        }
+        else{
+            return false
+        }
     }
 }
